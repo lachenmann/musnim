@@ -103,3 +103,17 @@ def test_out_of_order_events_rejected(tmp_path):
     e[1]["onset_beats"] = 1
     with pytest.raises(LilyPondError, match="ordenarse"):
         read_note_events(fixture_events(tmp_path, e))
+
+
+
+def test_experimental_scene_parses_without_rendering():
+    """CI validates scene syntax without depending on Manim/FFmpeg binaries."""
+    import ast
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[3]
+    scene = root / "projects" / "ZAR-001" / "scenes" / "semantic_notes_demo.py"
+    diagnostic = root / "scripts" / "inspect_semantic_notes.py"
+    ast.parse(scene.read_text(encoding="utf-8"), filename=str(scene))
+    ast.parse(diagnostic.read_text(encoding="utf-8"), filename=str(diagnostic))
+    assert "class SemanticNotesDemo" in scene.read_text(encoding="utf-8")
