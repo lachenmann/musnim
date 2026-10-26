@@ -36,6 +36,22 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install --no-deps -e ./extensions/musnim
           python -m pip install "pytest>=8" "numpy>=2.1"
+      - name: Check PowerShell script syntax
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $scripts = @("scripts/bootstrap_windows.ps1", "scripts/render_musnim.ps1")
+          foreach ($script in $scripts) {
+            $tokens = $null
+            $errors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile(
+              (Resolve-Path $script).Path, [ref]$tokens, [ref]$errors
+            ) | Out-Null
+            if ($errors.Count -gt 0) {
+              $errors | ForEach-Object { Write-Error $_.ToString() }
+              exit 1
+            }
+          }
       - name: Run Musnim unit tests
         run: python -m pytest -c extensions/musnim/pyproject.toml extensions/musnim/tests -q
 # Render validation will require LilyPond, LaTeX, FFmpeg and Manim.
