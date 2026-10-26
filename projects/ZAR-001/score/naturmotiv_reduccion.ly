@@ -1,9 +1,11 @@
 \version "2.26.0"
 \pointAndClickOff
+% Richard Strauss (1896), Also sprach Zarathustra — reduced pitch motif.
+% Video presentation and bibliographic attribution use Manim Text objects.
 \header {
-  title = "Also sprach Zarathustra — Naturmotiv"
-  subtitle = "Reducción didáctica de alturas (ritmo esquemático)"
-  composer = "Richard Strauss (1896)"
+  title = ##f
+  subtitle = ##f
+  composer = ##f
   tagline = ##f
 }
 \paper {
@@ -13,7 +15,7 @@
   system-system-spacing.basic-distance = #15
 }
 \score {
-  \new Staff \with { instrumentName = "Motivo Do–Sol–Do" } {
+  \new Staff {
     \clef treble
     \time 4/4
     \once \override NoteHead.output-attributes = #'((id . "zar-nature-01") (data-musnim-id . "c-1"))

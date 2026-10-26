@@ -39,3 +39,11 @@ Ejecutar `python scripts/qa_zar001_video.py` y consultar
 `docs/musnim/VIDEO_QA.md`. Manim advirtió que ciertos nodos SVG
 `<text>` de LilyPond no son soportados; el pentagrama necesita
 inspección visual antes de aprobar el primer corte.
+
+## Corrección de maquetación — segunda iteración
+
+La primera inspección del MP4 480p15 reveló solapes de fórmula, pentagrama
+y anotaciones. La nueva escena separa las franjas tipográfica, musical
+y matemática, utiliza fundidos entre expresiones y reserva el texto
+editorial a los objetos Text de Manim. Pendiente de verificar visualmente
+con el siguiente render. Informe: `docs/musnim/VIDEO_REVIEW_2026-10-26.md`.
