@@ -1,0 +1,4 @@
+_build/
+audio/*.wav
+media/
+__pycache__/
