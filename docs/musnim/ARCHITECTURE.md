@@ -38,7 +38,7 @@ sus proporciones exactas a una ejecución orquestal.
 
 ## Trabajo pendiente
 
-- Probar LilyPond 2.24.4 o 2.26 con su salida SVG efectiva.
+- Fijar LilyPond estable 2.26.0 como referencia y probar su salida SVG efectiva.
 - Animar noteheads seleccionados por identificadores semánticos.
 - Cotejar compases 1–21 de la partitura de Joseph Aibl.
 - Construir eventos musicales tipados y relaciones partitura/tiempo.

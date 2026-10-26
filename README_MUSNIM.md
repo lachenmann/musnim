@@ -12,6 +12,8 @@ de Manim MathTex presenta modelos matemáticos y proporciones. Python
 genera la animación, cálculos racionales y sonido demostrativo.
 
 Plataformas objetivo: Windows, macOS y Linux.
+LilyPond estable 2.26.0 es la versión de grabado de referencia de ZAR-001;
+2.24.4 se conserva únicamente como opción para comprobar compatibilidad histórica.
 
 ## ZAR-001: El amanecer de las proporciones
 

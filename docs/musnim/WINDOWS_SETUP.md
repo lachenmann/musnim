@@ -72,7 +72,7 @@ a Internet durante la primera instalación.
 
 Comprueba:
 
-    lilypond --version
+    & $env:MUSNIM_LILYPOND --version
     latex --version
     dvisvgm --version
     ffmpeg -version
@@ -86,41 +86,29 @@ instaladas las herramientas:
 El primer render es una prueba de integración. Si falla, registra
 mensajes completos para corregir la compatibilidad real de SVG y Manim.
 
-## Reutilizar LilyPond 2.24.4 instalado en C: (opción preferida)
+## LilyPond 2.26.0 (versión estable canónica de Musnim)
 
-Musnim y el entorno virtual permanecen en D:. LilyPond puede seguir
-instalado en su carpeta de Windows. La reducción didáctica de ZAR-001
-declara sintaxis LilyPond 2.24.4 y usa el mecanismo `NoteHead.output-attributes`
-documentado para la serie 2.24. La compatibilidad efectiva se determina
-con el siguiente ensayo de integración:
+La versión estable fijada para el desarrollo inicial es 2.26.0.
+La anterior 2.24.4 instalada en C: puede permanecer como respaldo,
+sin necesidad de desinstalarla ni modificar su directorio.
 
-    cd D:\Proyectos\musnim
-    $lilypond = 'C:\Users\alevi\AppData\Local\Programs\LilyPond\lilypond-2.24.4\bin\lilypond.exe'
-    if (!(Test-Path -LiteralPath $lilypond)) { throw "LilyPond no encontrado: $lilypond" }
-    $env:MUSNIM_LILYPOND = $lilypond
-    [Environment]::SetEnvironmentVariable('MUSNIM_LILYPOND', $lilypond, 'User')
-    & $lilypond --version
-    .\.venv\Scripts\python.exe .\scripts\verify_lilypond.py
-
-`MUSNIM_LILYPOND` es suficiente; no es necesario añadir el directorio
-al PATH ni duplicar el programa en D:. La opción de instalar 2.26.0
-en D: se reserva para cuando haga falta una característica nueva o se
-identifique una incompatibilidad concreta.
-
-## Instalación opcional LilyPond 2.26.0 en D:
-
-El script descarga el paquete ZIP oficial Windows x86_64, lo descomprime
-en `D:\Proyectos\.tools\lilypond-2.26.0`, comprueba la versión y
-registra la ruta a `lilypond.exe` en la variable de usuario
-`MUSNIM_LILYPOND`. No modifica la carpeta de Manim ni los remotos Git.
+El script descarga el ZIP oficial Windows x86_64 desde GitLab,
+lo instala en `D:\Proyectos\.tools\lilypond-2.26.0`,
+comprueba la versión y registra el ejecutable en
+`MUSNIM_LILYPOND` (variable de usuario). Los scripts de Musnim
+utilizan ese ejecutable incluso cuando la versión antigua está en PATH.
 
     Set-Location 'D:\Proyectos\musnim'
     git pull --ff-only origin feature/ZAR-001-bootstrap
     powershell -ExecutionPolicy Bypass -File .\scripts\install_lilypond_windows.ps1
 
-Si la descarga desde GitLab falla, utiliza el vínculo oficial en
-https://lilypond.org/download.es.html y extrae el ZIP Windows x86_64
-en la misma carpeta. Luego ejecuta nuevamente el script.
+Si GitLab falla, descargar LilyPond 2.26.0 para Windows x86_64 desde:
+https://lilypond.org/download.es.html
+
+El archivo fuente `projects/ZAR-001/score/naturmotiv_reduccion.ly`
+declara `\version "2.26.0"` de forma reproducible.
+Para comparar con partituras antiguas, puede usarse
+`convert-ly` en una rama de trabajo; conservar siempre el original.
 
 ## Primera integración real de grabado
 

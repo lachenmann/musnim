@@ -1,4 +1,4 @@
-"""Real LilyPond 2.24+ -> SVG -> note identifiers smoke test for ZAR-001.
+"""Real LilyPond 2.26 -> SVG -> note identifiers smoke test for ZAR-001.
 
 Requires MUSNIM_LILYPOND to reference lilypond.exe, or lilypond in PATH.
 Unlike the unit tests, this checks the actual external engraving engine.
@@ -23,7 +23,7 @@ def main() -> None:
             f"ERROR: identificadores de nota inesperados. "
             f"Esperados: {expected}; obtenidos: {actual}"
         )
-    print("OK: LilyPond -> SVG con IDs semánticos Do-Sol-Do.")
+    print("OK: LilyPond 2.26 -> SVG con IDs semánticos Do-Sol-Do.")
 
 
 if __name__ == "__main__":
