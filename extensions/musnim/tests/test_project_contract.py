@@ -57,3 +57,30 @@ def test_musical_event_order_is_a_separate_contract_from_svg():
         r'data-musnim-id\s*\.\s*"([^"]+)"', source
     )
     assert ids_in_lilypond == [event["id"] for event in events]
+
+
+
+def test_scene_sources_parse_and_keep_score_separate():
+    import ast
+
+    scene_file = PROJECT / "scenes" / "zarathustra_pitagorico.py"
+    scene_text = scene_file.read_text(encoding="utf-8")
+    ast.parse(scene_text, filename=str(scene_file))
+
+    # The staff must disappear before analytical formulas occupy the frame.
+    assert "FadeOut(score)" in scene_text
+    assert "math_card(" in scene_text
+    assert "score.scale_to_fit_width(8.4)" in scene_text
+    # Abrupt changes between unrelated MathTex formula structures are avoided.
+    assert "Transform(current" not in scene_text
+
+
+def test_lilypond_score_delegates_editorial_text_to_manim():
+    score = (PROJECT / "score" / "naturmotiv_reduccion.ly").read_text(
+        encoding="utf-8"
+    )
+    assert r"\version " + '"2.26.0"' in score
+    assert "title = ##f" in score
+    assert "subtitle = ##f" in score
+    assert "composer = ##f" in score
+    assert 'instrumentName = "' not in score
