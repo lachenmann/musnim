@@ -35,10 +35,10 @@ if ($LASTEXITCODE -ne 0) { throw 'Las pruebas no aprobaron' }
 $missing = @()
 foreach ($name in @('latex', 'dvisvgm', 'ffmpeg')) {
     if (Get-Command $name -ErrorAction SilentlyContinue) {
-        Write-Host "$name: OK"
+        Write-Host "${name}: OK"
     } else {
         $missing += $name
-        Write-Warning "$name: pendiente"
+        Write-Warning "${name}: pendiente"
     }
 }
 if ((Get-Command 'lilypond' -ErrorAction SilentlyContinue) -or
