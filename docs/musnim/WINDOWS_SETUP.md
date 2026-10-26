@@ -1,35 +1,68 @@
 # Musnim — Instalación en Windows (PowerShell)
 
-El fork es https://github.com/lachenmann/musnim.
+El fork está en https://github.com/lachenmann/musnim.
+La ubicación recomendada de desarrollo es `D:\Proyectos\musnim`, con
+entorno virtual `.venv` dentro del propio repositorio.
 
-## Clonar
+## Clonar directamente en D: (instalación nueva)
 
-Instala Git para Windows, abre PowerShell y ejecuta:
-
-    New-Item -ItemType Directory -Force "$HOME\Proyectos" | Out-Null
-    cd "$HOME\Proyectos"
-    git clone https://github.com/lachenmann/musnim.git
-    cd musnim
+    New-Item -ItemType Directory -Force 'D:\Proyectos' | Out-Null
+    Set-Location 'D:\Proyectos'
+    git clone --branch feature/ZAR-001-bootstrap https://github.com/lachenmann/musnim.git
+    Set-Location 'D:\Proyectos\musnim'
     git remote add upstream https://github.com/ManimCommunity/manim.git
-    git fetch origin
-    git switch feature/ZAR-001-bootstrap
 
-Si upstream ya existe, consulta git remote -v y consérvalo.
+## Trasladar un clon que ya existe en C: a D:
+
+Este método conserva las ramas, los commits, la carpeta oculta `.git`,
+los remotos `origin` y `upstream`, y cualquier trabajo local. Utiliza
+`robocopy` para copiar entre volúmenes, conservando la copia de C:
+hasta verificar que la de D: funciona.
+
+    Set-Location $HOME
+    $source = Join-Path $HOME 'Proyectos\musnim'
+    $destination = 'D:\Proyectos\musnim'
+    if (-not (Test-Path $source)) { throw "No existe $source" }
+    if (Test-Path $destination) { throw "El destino ya existe: $destination" }
+    New-Item -ItemType Directory -Force 'D:\Proyectos' | Out-Null
+    robocopy $source $destination /E /COPY:DAT /DCOPY:DAT /R:2 /W:2 /NP
+    if ($LASTEXITCODE -ge 8) { throw "Robocopy falló: $LASTEXITCODE" }
+    Set-Location $destination
+    git status -sb
+    git remote -v
+    git pull --ff-only origin feature/ZAR-001-bootstrap
+
+Después de comprobar el clon de D:, puedes eliminar el clon de C:
+manualmente. Evita borrar C: antes de revisar los cambios locales.
+
+## Actualizar la rama existente
+
+    Set-Location 'D:\Proyectos\musnim'
+    git switch feature/ZAR-001-bootstrap
+    git pull --ff-only origin feature/ZAR-001-bootstrap
 
 ## Instalar dependencias Python
 
-Instala uv desde https://docs.astral.sh/uv/getting-started/installation/
+Instala `uv` desde https://docs.astral.sh/uv/getting-started/installation/
 o mediante:
 
     powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 
-Abre otra ventana de PowerShell, vuelve al directorio del repo y ejecuta:
+Para dejar también las descargas de Python y la caché de uv en D:,
+configura estas variables en la sesión actual *antes* del bootstrap:
 
+    $env:UV_CACHE_DIR = 'D:\Proyectos\.uv-cache'
+    $env:UV_PYTHON_INSTALL_DIR = 'D:\Proyectos\.uv-python'
+
+Abre otra ventana de PowerShell si acabas de instalar `uv`, repite
+estas dos asignaciones y ejecuta:
+
+    Set-Location 'D:\Proyectos\musnim'
     powershell -ExecutionPolicy Bypass -File .\scripts\bootstrap_windows.ps1
 
-El script instala el entorno Python de Manim y la extensión Musnim
-en modo editable, ejecuta las pruebas Python y comprueba herramientas
-externas. Necesita conexión a Internet durante la primera instalación.
+El script instala el entorno de Manim, instala Musnim en modo editable,
+ejecuta las pruebas y comprueba herramientas externas. Requiere conexión
+a Internet durante la primera instalación.
 
 ## Herramientas de producción audiovisual
 
@@ -44,11 +77,11 @@ Comprueba:
     dvisvgm --version
     ffmpeg -version
 
-En Windows puede ser necesario configurar MUSNIM_LILYPOND con la ruta
-completa a lilypond.exe cuando está fuera del PATH. Cuando las cuatro
-herramientas estén presentes, ejecuta:
+En Windows puede ser necesario configurar `MUSNIM_LILYPOND` con la ruta
+completa a `lilypond.exe` cuando está fuera del `PATH`. Una vez
+instaladas las herramientas:
 
     powershell -ExecutionPolicy Bypass -File .\scripts\bootstrap_windows.ps1 -Render
 
-El prototipo es una prueba de integración inicial: si falla,
-guardar las trazas para corregir la compatibilidad de SVG y Manim.
+El primer render es una prueba de integración. Si falla, registra
+mensajes completos para corregir la compatibilidad real de SVG y Manim.
