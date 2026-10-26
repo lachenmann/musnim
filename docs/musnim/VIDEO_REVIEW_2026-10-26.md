@@ -54,3 +54,14 @@ El video no se agrega al repositorio Git.
 
 Render renovado en Windows, QA de FFprobe, revisión de los segundos 8–27,
 39–55 y 75–79, y confirmación de que desaparecieron los avisos por texto SVG.
+
+## Seguimiento del segundo render (26-10-2026)
+
+QA automatizada del MP4 de segunda iteración: **79,04 s, 1280×720, 30 fps,
+H.264/AAC**, resultado OK en el PC del usuario. El archivo generado
+se encuentra en `media/videos/zarathustra_pitagorico/720p30/`.
+
+**Pendiente:** comparar fotogramas 12, 22 y 42 segundos con el primer
+corte, escuchar la pista y comprobar si desaparecieron los solapes y
+las advertencias de texto SVG. La superación del QA técnico no cierra
+los hallazgos visuales P1/P2.

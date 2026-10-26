@@ -72,3 +72,22 @@ calidad de Manim. Para analizar un video concreto puede utilizarse:
     .\.venv\Scripts\python.exe .\scripts\qa_zar001_video.py --video "RUTA_AL_MP4"
 
 Revisar especialmente 8–20, 21–27 y 39–55 s del nuevo render.
+
+## Segundo corte HD: resultado técnico confirmado en Windows (26-10-2026)
+
+El usuario ejecutó `scripts/qa_zar001_video.py` sobre el nuevo render y
+compartió los resultados:
+
+- Archivo: `media/videos/zarathustra_pitagorico/720p30/ZarathustraPitagorico.mp4`.
+- Duración: **79,04 segundos**.
+- Resolución: **1280 × 720**.
+- Fotogramas por segundo: **30,0**.
+- Códecs: **H.264** (video), **AAC** (audio).
+- Resultado del verificador: **OK**, video y audio presentes y duración coherente.
+
+Esta evidencia valida técnicamente el segundo render. La presencia de
+una pista de audio demuestra que fue multiplexada en el archivo; la
+sincronización fina y el contenido auditivo requieren inspección directa.
+La revisión visual de los solapes, la tipografía, el pentagrama y las
+transiciones permanece **pendiente** hasta recibir o inspeccionar el MP4
+HD real. Conservar abierto el Issue #4 y el PR #1 en borrador.

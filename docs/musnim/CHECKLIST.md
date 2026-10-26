@@ -8,7 +8,7 @@
 - [x] LilyPond 2.26 instalado en D: y salida SVG con tres IDs confirmada por el usuario.
 - [x] Verificación de cobertura de IDs independiente del orden DOM (LilyPond real 2.26.0 en Windows, 26-10-2026).
 - [x] Manim + LaTeX + FFmpeg probados localmente: 30 animaciones, MP4 480p15 (26-10-2026).
-- [ ] Validar técnicamente audio, duración y video del MP4 con `qa_zar001_video.py`.
+- [x] Validar técnicamente el MP4 HD con `qa_zar001_video.py`: 79,04 s, 1280×720, 30 fps, H.264/AAC (26-10-2026).
 - [ ] Revisar visualmente advertencias por texto SVG no admitido en `SVGMobject`.
 - [ ] Revisión de PR y merge hacia main.
 - [ ] Notas Obsidian organizadas fuera del repo público.
@@ -19,4 +19,5 @@
 - [x] Hallazgos P1/P2 y primera refactorización de escena registrados.
 - [ ] Render renovado y comprobación visual de superposiciones.
 - [ ] Comprobar ausencia de advertencias de texto SVG y audio íntegro.
-- [ ] Elevar la resolución a 720p30 tras aprobar la maquetación.
+- [x] Generar segundo corte de revisión a 720p30 (26-10-2026).
+- [ ] Aprobar visual y musicalmente el segundo corte antes de solicitar 1080p.
