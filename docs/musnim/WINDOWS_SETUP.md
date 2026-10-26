@@ -90,7 +90,7 @@ mensajes completos para corregir la compatibilidad real de SVG y Manim.
 
 Musnim y el entorno virtual permanecen en D:. LilyPond puede seguir
 instalado en su carpeta de Windows. La reducción didáctica de ZAR-001
-declara sintaxis LilyPond 2.24.4 y usa el mecanismo \`NoteHead.output-attributes\`
+declara sintaxis LilyPond 2.24.4 y usa el mecanismo `NoteHead.output-attributes`
 documentado para la serie 2.24. La compatibilidad efectiva se determina
 con el siguiente ensayo de integración:
 
@@ -102,7 +102,7 @@ con el siguiente ensayo de integración:
     & $lilypond --version
     .\.venv\Scripts\python.exe .\scripts\verify_lilypond.py
 
-\`MUSNIM_LILYPOND\` es suficiente; no es necesario añadir el directorio
+`MUSNIM_LILYPOND` es suficiente; no es necesario añadir el directorio
 al PATH ni duplicar el programa en D:. La opción de instalar 2.26.0
 en D: se reserva para cuando haga falta una característica nueva o se
 identifique una incompatibilidad concreta.
