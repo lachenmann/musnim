@@ -47,4 +47,6 @@ sus proporciones exactas a una ejecución orquestal.
 - Animar noteheads seleccionados por identificadores semánticos.
 - Cotejar compases 1–21 de la partitura de Joseph Aibl.
 - Construir eventos musicales tipados y relaciones partitura/tiempo.
-- Renderizar video de prueba en los tres sistemas.
+- Primer MP4 de prueba producido en Windows (480p15; 30 animaciones).
+- Auditar visualmente los nodos SVG `<text>` omitidos por Manim 0.22.0.
+- Probar el render en macOS y Linux.

@@ -28,3 +28,14 @@ Con dependencias externas instaladas y la extensión importable:
 
 La salida del prototipo tiene 79 segundos y usa audio sintético original.
 No hay en este proyecto grabaciones comerciales ni PDF bibliográficos.
+
+## Primer render efectivo (Windows, 26-10-2026)
+
+Manim Community 0.22.0 completó 30 animaciones a 480p15 y creó
+`media/videos/zarathustra_pitagorico/480p15/ZarathustraPitagorico.mp4`.
+El registro confirma generación del archivo; la verificación independiente
+de su pista sonora, duración efectiva y aspecto visual sigue pendiente.
+Ejecutar `python scripts/qa_zar001_video.py` y consultar
+`docs/musnim/VIDEO_QA.md`. Manim advirtió que ciertos nodos SVG
+`<text>` de LilyPond no son soportados; el pentagrama necesita
+inspección visual antes de aprobar el primer corte.

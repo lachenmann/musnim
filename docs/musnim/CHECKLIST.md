@@ -7,6 +7,8 @@
 - [x] CI Python de Musnim en verde en Windows, macOS y Linux (26-10-2026).
 - [x] LilyPond 2.26 instalado en D: y salida SVG con tres IDs confirmada por el usuario.
 - [x] Verificación de cobertura de IDs independiente del orden DOM (LilyPond real 2.26.0 en Windows, 26-10-2026).
-- [ ] Manim + LaTeX + FFmpeg probados localmente.
+- [x] Manim + LaTeX + FFmpeg probados localmente: 30 animaciones, MP4 480p15 (26-10-2026).
+- [ ] Validar técnicamente audio, duración y video del MP4 con `qa_zar001_video.py`.
+- [ ] Revisar visualmente advertencias por texto SVG no admitido en `SVGMobject`.
 - [ ] Revisión de PR y merge hacia main.
 - [ ] Notas Obsidian organizadas fuera del repo público.

@@ -9,8 +9,10 @@
 | M4 | Sincronización audiovisual | Timestamps comprobados contra audio permitido |
 | M5 | Primera película 1080p | Render reproducible, revisión musicológica y QA |
 
-La salida M0 comprende pruebas unitarias Python; se considerará
-terminado tras verificarse la CI remota. Las pruebas de audio,
+La salida M0 comprende pruebas unitarias Python; CI remota aprobada.
+El primer MP4 real 480p15 se generó en Windows el 26-10-2026.
+M1 conserva pendiente la inspección visual, la auditoría del audio y
+la animación semántica de notas por identificador. Las pruebas de audio,
 grabado real y render se incorporarán progresivamente.
 
 La primera película distingue tres ámbitos: relaciones matemáticas,
