@@ -126,3 +126,40 @@ de nota Do–Sol–Do. Si aprueba, intenta la escena audiovisual:
 Si el render detecta diferencias en el SVG o la escena, conserva los
 mensajes del error y corrige el código desde el PR #1. La verificación
 de grabado real es un hito posterior a las 16 pruebas unitarias.
+
+## Instalaciones LilyPond independientes: C: general y D: Musnim
+
+**LilyPond general en C:** actualización estable por versión explícita,
+usando el paquete oficial de Windows. Este script crea una carpeta
+versionada en `%LOCALAPPDATA%\Programs\LilyPond`, conserva la anterior
+y actualiza el PATH del usuario. No modifica `MUSNIM_LILYPOND`:
+
+    cd D:\Proyectos\musnim
+    powershell -ExecutionPolicy Bypass -File .\scripts\install_lilypond_user_windows.ps1 -Version 2.26.0
+
+**LilyPond de Musnim en D:** versión bloqueada para la reproducción de
+ZAR-001. Este instalador establece `MUSNIM_LILYPOND` hacia D: y no
+cambia el LilyPond general del PATH:
+
+    cd D:\Proyectos\musnim
+    powershell -ExecutionPolicy Bypass -File .\scripts\install_lilypond_windows.ps1
+
+Después de abrir otra ventana de PowerShell:
+
+    Get-Command lilypond | Select-Object -ExpandProperty Source
+    lilypond --version
+    $env:MUSNIM_LILYPOND
+    & $env:MUSNIM_LILYPOND --version
+    .\.venv\Scripts\python.exe .\scripts\verify_lilypond.py
+
+El comando `lilypond` debe resolver al ejecutable de C: y
+`MUSNIM_LILYPOND` al ejecutable de D:. Si `Get-Command lilypond`
+continúa señalando a 2.24.4, revisa la entrada antigua en el PATH
+del sistema o de aplicaciones gráficas; el script solo actualiza
+el PATH de usuario.
+
+Cuando salga una nueva versión estable, actualiza primero la instalación
+general de C: usando `-Version` con esa versión tras verificar el lanzamiento
+oficial. Musnim conserva su versión fijada de D: hasta superar las
+pruebas de compatibilidad y revisión del proyecto.
+
