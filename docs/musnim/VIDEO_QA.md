@@ -50,3 +50,25 @@ autoridad del grabado y el manifiesto de eventos como cronología musical.
 Documentación de referencia:
 - https://docs.manim.community/en/stable/reference/manim.mobject.svg.svg_mobject.SVGMobject.html
 - https://lilypond.org/doc/v2.26/Documentation/notation/alternative-output-formats
+
+## Segunda iteración después de la revisión visual
+
+Se incorporó un refactor de composición al PR #1: partitura LilyPond
+centrada en una sección separada, anotaciones con franjas propias,
+fórmulas MathTex después de retirar el pentagrama y transiciones por
+fundido. Es una propuesta **pendiente de validación en video**, no un
+resultado garantizado por las pruebas Python.
+
+Para producir una vista de revisión a 720p30 desde PowerShell:
+
+    cd D:\Proyectos\musnim
+    git pull --ff-only origin feature/ZAR-001-bootstrap
+    powershell -ExecutionPolicy Bypass -File .\scripts\render_musnim.ps1
+    .\.venv\Scripts\python.exe .\scripts\qa_zar001_video.py
+
+El script QA selecciona el MP4 más reciente dentro de las carpetas de
+calidad de Manim. Para analizar un video concreto puede utilizarse:
+
+    .\.venv\Scripts\python.exe .\scripts\qa_zar001_video.py --video "RUTA_AL_MP4"
+
+Revisar especialmente 8–20, 21–27 y 39–55 s del nuevo render.
