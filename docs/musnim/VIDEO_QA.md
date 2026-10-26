@@ -91,3 +91,25 @@ sincronización fina y el contenido auditivo requieren inspección directa.
 La revisión visual de los solapes, la tipografía, el pentagrama y las
 transiciones permanece **pendiente** hasta recibir o inspeccionar el MP4
 HD real. Conservar abierto el Issue #4 y el PR #1 en borrador.
+
+## Tercer corte HD: resultado técnico informado por el usuario (26-10-2026)
+
+El tercer render basado en `CueClock.exchange` finalizó en Windows:
+
+- Manim Community 0.22.0: `Rendered ZarathustraPitagorico`.
+- Total: **42 animaciones** procesadas.
+- Archivo: `media/videos/zarathustra_pitagorico/720p30/ZarathustraPitagorico.mp4`.
+- Inspección con `qa_zar001_video.py`: **79,164 segundos**,
+  **1280 × 720**, **30,001 fps**, video **H.264** y audio **AAC**.
+- Mensaje: `OK: el MP4 contiene video y audio y presenta duración coherente.`
+- Advertencia de FFmpeg `Some options were not used`: no bloqueó el
+  resultado audiovisual.
+
+**Alcance de esta evidencia:** confirma creación del contenedor, parámetros
+del archivo y presencia de las pistas. La ausencia de superposición de
+fórmulas, calidad del texto SVG, inteligibilidad del audio y sincronización
+musical fina exigen una inspección del tercer MP4 real.
+
+La duración difiere ligeramente del valor nominal de 79,0 s; queda
+dentro de la tolerancia ya documentada de ±2 s. Conservar los renders
+anteriores para realizar comparaciones reproducibles.

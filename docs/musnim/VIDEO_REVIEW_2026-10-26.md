@@ -100,3 +100,17 @@ La prueba de regresión AST confirma el uso del nuevo patrón.
 **Estado:** el cambio de código se ha registrado; los defectos de
 doble exposición se considerarán cerrados después de inspeccionar
 un tercer MP4 real.
+
+## Tercer render ejecutado — validación visual pendiente (26-10-2026)
+
+El tercer MP4 fue renderizado por Manim en Windows tras el cambio
+`CueClock.exchange` del commit `584ad0e7`. La consola informa
+**42 animaciones**. La herramienta de QA ejecutada por el usuario
+informa **79,164 s, 1280×720, 30,001 fps, H.264 + AAC, OK**.
+
+El incremento de animaciones es coherente con las fases adicionales
+de salida y entrada de las expresiones matemáticas, pero la eliminación
+real de la doble exposición **todavía debe revisarse fotograma a
+fotograma** en 27–28, 32–33, 65–66 y 71–72 s. La salida publicada
+del render no contiene información suficiente para aprobar el resultado
+visual; el archivo local se mantiene fuera del repositorio Git.

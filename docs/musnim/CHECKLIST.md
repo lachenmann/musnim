@@ -19,7 +19,8 @@
 - [x] Inspección visual del MP4 real y análisis de audio (26-10-2026).
 - [x] Hallazgos P1/P2 y primera refactorización de escena registrados.
 - [x] Segundo render 720p30 comparado con el primero: solapes persistentes corregidos.
-- [ ] Inspeccionar el tercer render con fundidos secuenciales (27,5; 32,5; 65,5; 71,5 s).
+- [x] Tercer render generado y QA técnico aprobado en Windows: 42 animaciones, 79,164 s, 1280×720, ~30 fps, H.264/AAC (26-10-2026).
+- [ ] Inspeccionar visualmente los fundidos secuenciales del tercer MP4 (27,5; 32,5; 65,5; 71,5 s).
 - [ ] Comprobar ausencia de advertencias de texto SVG y audio íntegro.
 - [x] Generar segundo corte de revisión a 720p30 (26-10-2026).
 - [ ] Aprobar visual y musicalmente el segundo corte antes de solicitar 1080p.
