@@ -37,6 +37,27 @@ class CueClock:
         self.scene.play(*animations, run_time=duration)
         self.time += duration
 
+    def exchange(
+        self,
+        departing,
+        arriving,
+        *,
+        duration: float = 1.2,
+        remove=(),
+        add=(),
+    ):
+        """Show musical/mathematical objects in two non-overlapping phases.
+
+        The outgoing object disappears fully before the next one appears.
+        The total duration is unchanged so the cue timeline remains stable.
+        """
+        if duration <= 0:
+            raise ValueError("La duración de la transición debe ser positiva")
+        fade_out = (FadeOut(departing), *(FadeOut(item) for item in remove))
+        fade_in = (FadeIn(arriving), *(FadeIn(item) for item in add))
+        self.play(*fade_out, duration=duration * 0.4)
+        self.play(*fade_in, duration=duration * 0.6)
+
 
 def heading(text: str) -> Text:
     """Persistent chapter title occupying only the top band of the frame."""
@@ -181,9 +202,7 @@ class ZarathustraPitagorico(Scene):
             "Quinta pura y octava",
             GREEN_C,
         )
-        clock.play(
-            FadeOut(current), FadeIn(fifth), FadeOut(bars), duration=1.2
-        )
+        clock.exchange(current, fifth, remove=(bars,), duration=1.2)
         current = fifth
         clock.until(32.0)
 
@@ -192,7 +211,7 @@ class ZarathustraPitagorico(Scene):
             "La tercera mayor justa introduce el armónico quinto",
             GOLD_C,
         )
-        clock.play(FadeOut(current), FadeIn(major), duration=1.2)
+        clock.exchange(current, major, duration=1.2)
         current = major
         clock.until(39.0)
 
@@ -202,7 +221,7 @@ class ZarathustraPitagorico(Scene):
             GOLD_C,
             secondary_latex=r"\frac{81/64}{5/4}=\frac{81}{80}",
         )
-        clock.play(FadeOut(current), FadeIn(comma), duration=1.2)
+        clock.exchange(current, comma, duration=1.2)
         current = comma
         clock.until(44.0)
 
@@ -211,7 +230,7 @@ class ZarathustraPitagorico(Scene):
             "Tríada menor en afinación justa",
             BLUE_C,
         )
-        clock.play(FadeOut(current), FadeIn(minor), duration=1.2)
+        clock.exchange(current, minor, duration=1.2)
         current = minor
         clock.until(51.0)
 
@@ -220,9 +239,7 @@ class ZarathustraPitagorico(Scene):
             "Tercera menor pitagórica y tercera menor justa",
             BLUE_C,
         )
-        clock.play(
-            FadeOut(current), FadeIn(lower_thirds), duration=1.2
-        )
+        clock.exchange(current, lower_thirds, duration=1.2)
         current = lower_thirds
         clock.until(56.0)
 
@@ -232,10 +249,9 @@ class ZarathustraPitagorico(Scene):
             "Do mayor justo · experimento auditivo",
             GOLD_C,
         )
-        clock.play(
-            FadeOut(analysis_title), FadeIn(return_title),
-            FadeOut(current), FadeIn(major_return),
-            duration=1.2,
+        clock.exchange(
+            current, major_return,
+            remove=(analysis_title,), add=(return_title,), duration=1.2,
         )
         current = major_return
         clock.until(65.0)
@@ -245,9 +261,7 @@ class ZarathustraPitagorico(Scene):
             "Do menor justo · experimento auditivo",
             BLUE_C,
         )
-        clock.play(
-            FadeOut(current), FadeIn(minor_return), duration=1.2
-        )
+        clock.exchange(current, minor_return, duration=1.2)
         current = minor_return
         clock.until(71.0)
 
@@ -256,9 +270,7 @@ class ZarathustraPitagorico(Scene):
             "Do mayor justo · experimento auditivo",
             GOLD_C,
         )
-        clock.play(
-            FadeOut(current), FadeIn(major_return), duration=1.2
-        )
+        clock.exchange(current, major_return, duration=1.2)
         current = major_return
         clock.until(75.0)
 
@@ -270,8 +282,7 @@ class ZarathustraPitagorico(Scene):
         if closing.width > 11:
             closing.scale_to_fit_width(11)
         closing.move_to(UP * 0.3)
-        clock.play(
-            FadeOut(return_title), FadeOut(current), FadeIn(closing),
-            duration=1.3,
+        clock.exchange(
+            current, closing, remove=(return_title,), duration=1.3,
         )
         clock.until(79.0)

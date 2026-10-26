@@ -65,3 +65,38 @@ se encuentra en `media/videos/zarathustra_pitagorico/720p30/`.
 corte, escuchar la pista y comprobar si desaparecieron los solapes y
 las advertencias de texto SVG. La superación del QA técnico no cierra
 los hallazgos visuales P1/P2.
+
+## Auditoría comparada del segundo MP4 HD (26-10-2026)
+
+Se comparó directamente el segundo video (79,04 s, 1280×720, 30 fps,
+H.264/AAC) con el primer corte en los segundos 7,5; 10; 12; 14; 16;
+19,5; 20,5; 22; 25; 26,5; 27,5; 32,5; 35; 39; 42; 45; 49; 52;
+55; 59; 61; 65,5; 68; 71,5; 74; 76 y 78.
+
+- [x] Las etiquetas Do–Sol–Do y la leyenda están separadas (12 s).
+- [x] El pentagrama sale antes de iniciar la fórmula 2:3:4 (22 s).
+- [x] Las expresiones matemáticas estables son legibles (35, 39, 42, 49 s).
+- [x] Líneas de pentagrama, clave y notas muestran mayor contraste.
+- [ ] Los fundidos simultáneos entre fórmulas producen doble exposición
+  breve cerca de 27,5; 32,5; 65,5 y 71,5 segundos.
+- [ ] Los nombres de las notas deben anclarse en el futuro a sus propios
+  `data-musnim-id` para animación individual y alineación precisa (M3).
+- [ ] Comprobar en los logs reales la ausencia de advertencias
+  `Unsupported element type: svgelements.Text`; el MP4 no conserva
+  la salida completa de la consola de Manim.
+
+Las pistas sonoras decodificadas de ambos MP4 son idénticas
+muestra por muestra: se conserva la secuencia sintética y sus ataques.
+Se comprobaron picos aproximados de Do 262 Hz, Sol 392 Hz,
+Do agudo 523 Hz, Mi 327 Hz y Mi bemol 314 Hz.
+
+### Tercera iteración de código, pendiente de render
+
+`CueClock.exchange` completa primero la salida de una fórmula y
+después la entrada de su sucesora, conservando la duración total
+de cada transición. Se aplica a los nueve intercambios de la escena.
+La prueba de regresión AST confirma el uso del nuevo patrón.
+
+**Estado:** el cambio de código se ha registrado; los defectos de
+doble exposición se considerarán cerrados después de inspeccionar
+un tercer MP4 real.

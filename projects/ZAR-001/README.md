@@ -47,3 +47,12 @@ y anotaciones. La nueva escena separa las franjas tipográfica, musical
 y matemática, utiliza fundidos entre expresiones y reserva el texto
 editorial a los objetos Text de Manim. Pendiente de verificar visualmente
 con el siguiente render. Informe: `docs/musnim/VIDEO_REVIEW_2026-10-26.md`.
+
+## Revisión comparada del segundo MP4 HD
+
+El segundo corte resuelve las colisiones persistentes entre partitura,
+etiquetas y fórmulas. El audio original permanece idéntico al del primer
+render. Se registró `CueClock.exchange` para suprimir la doble exposición
+transitoria de fórmulas mediante dos fases secuenciales. **La corrección
+necesita un tercer render de validación** antes de aprobarse visualmente.
+Informe: `docs/musnim/VIDEO_REVIEW_2026-10-26.md`.

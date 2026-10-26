@@ -84,3 +84,26 @@ def test_lilypond_score_delegates_editorial_text_to_manim():
     assert "subtitle = ##f" in score
     assert "composer = ##f" in score
     assert 'instrumentName = "' not in score
+
+
+
+def test_formula_exchanges_are_sequential_in_scene():
+    """Regression for 720p ghosting at 27–28, 32–33 and 65–72 seconds."""
+    import ast
+
+    scene_file = PROJECT / "scenes" / "zarathustra_pitagorico.py"
+    scene_text = scene_file.read_text(encoding="utf-8")
+    parsed = ast.parse(scene_text, filename=str(scene_file))
+    clock_class = next(
+        node for node in parsed.body
+        if isinstance(node, ast.ClassDef) and node.name == "CueClock"
+    )
+    exchange = next(
+        node for node in clock_class.body
+        if isinstance(node, ast.FunctionDef) and node.name == "exchange"
+    )
+    assert exchange is not None
+    assert "duration * 0.4" in scene_text
+    assert "duration * 0.6" in scene_text
+    assert scene_text.count("clock.exchange(") == 9
+    assert "FadeOut(current), FadeIn(" not in scene_text
