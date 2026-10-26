@@ -85,3 +85,35 @@ instaladas las herramientas:
 
 El primer render es una prueba de integración. Si falla, registra
 mensajes completos para corregir la compatibilidad real de SVG y Manim.
+
+## Instalar LilyPond 2.26.0 exclusivamente en D:
+
+El script descarga el paquete ZIP oficial Windows x86_64, lo descomprime
+en `D:\Proyectos\.tools\lilypond-2.26.0`, comprueba la versión y
+registra la ruta a `lilypond.exe` en la variable de usuario
+`MUSNIM_LILYPOND`. No modifica la carpeta de Manim ni los remotos Git.
+
+    Set-Location 'D:\Proyectos\musnim'
+    git pull --ff-only origin feature/ZAR-001-bootstrap
+    powershell -ExecutionPolicy Bypass -File .\scripts\install_lilypond_windows.ps1
+
+Si la descarga desde GitLab falla, utiliza el vínculo oficial en
+https://lilypond.org/download.es.html y extrae el ZIP Windows x86_64
+en la misma carpeta. Luego ejecuta nuevamente el script.
+
+## Primera integración real de grabado
+
+Abre una NUEVA ventana de PowerShell, para que Windows lea la nueva
+variable MUSNIM_LILYPOND:
+
+    cd D:\Proyectos\musnim
+    .\.venv\Scripts\python.exe scripts\verify_lilypond.py
+
+Esto valida LilyPond real, salida SVG y los identificadores de cabeza
+de nota Do–Sol–Do. Si aprueba, intenta la escena audiovisual:
+
+    powershell -ExecutionPolicy Bypass -File .\scripts\bootstrap_windows.ps1 -Render
+
+Si el render detecta diferencias en el SVG o la escena, conserva los
+mensajes del error y corrige el código desde el PR #1. La verificación
+de grabado real es un hito posterior a las 16 pruebas unitarias.

@@ -40,7 +40,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          $scripts = @("scripts/bootstrap_windows.ps1", "scripts/render_musnim.ps1")
+          $scripts = @("scripts/bootstrap_windows.ps1", "scripts/render_musnim.ps1", "scripts/install_lilypond_windows.ps1")
           foreach ($script in $scripts) {
             $tokens = $null
             $errors = $null
