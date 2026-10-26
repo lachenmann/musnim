@@ -30,7 +30,7 @@ def test_lilypond_source_has_three_semantic_note_tags():
         encoding="utf-8")
     identifiers = re.findall(r'data-musnim-id\s*\.\s*"([^"]+)"', score)
     assert identifiers == ["c-1", "g-1", "c-2"]
-    assert r'\version "2.26.0"' in score
+    assert r'\version "2.24.4"' in score
 
 
 def test_score_provenance_disclaims_exact_rhythm():

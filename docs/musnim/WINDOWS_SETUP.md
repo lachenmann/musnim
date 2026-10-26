@@ -86,7 +86,28 @@ instaladas las herramientas:
 El primer render es una prueba de integración. Si falla, registra
 mensajes completos para corregir la compatibilidad real de SVG y Manim.
 
-## Instalar LilyPond 2.26.0 exclusivamente en D:
+## Reutilizar LilyPond 2.24.4 instalado en C: (opción preferida)
+
+Musnim y el entorno virtual permanecen en D:. LilyPond puede seguir
+instalado en su carpeta de Windows. La reducción didáctica de ZAR-001
+declara sintaxis LilyPond 2.24.4 y usa el mecanismo \`NoteHead.output-attributes\`
+documentado para la serie 2.24. La compatibilidad efectiva se determina
+con el siguiente ensayo de integración:
+
+    cd D:\Proyectos\musnim
+    $lilypond = 'C:\Users\alevi\AppData\Local\Programs\LilyPond\lilypond-2.24.4\bin\lilypond.exe'
+    if (!(Test-Path -LiteralPath $lilypond)) { throw "LilyPond no encontrado: $lilypond" }
+    $env:MUSNIM_LILYPOND = $lilypond
+    [Environment]::SetEnvironmentVariable('MUSNIM_LILYPOND', $lilypond, 'User')
+    & $lilypond --version
+    .\.venv\Scripts\python.exe .\scripts\verify_lilypond.py
+
+\`MUSNIM_LILYPOND\` es suficiente; no es necesario añadir el directorio
+al PATH ni duplicar el programa en D:. La opción de instalar 2.26.0
+en D: se reserva para cuando haga falta una característica nueva o se
+identifique una incompatibilidad concreta.
+
+## Instalación opcional LilyPond 2.26.0 en D:
 
 El script descarga el paquete ZIP oficial Windows x86_64, lo descomprime
 en `D:\Proyectos\.tools\lilypond-2.26.0`, comprueba la versión y
