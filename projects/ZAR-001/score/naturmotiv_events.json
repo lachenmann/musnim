@@ -1,0 +1,27 @@
+{
+  "schema": "musnim.note-events.v0.1",
+  "project": "ZAR-001",
+  "lilypond_source": "naturmotiv_reduccion.ly",
+  "scope": "Reducción didáctica de alturas; ritmo esquemático. Compases orquestales 1–21 pendientes de transcripción fiel.",
+  "beat_unit": "quarter",
+  "events": [
+    {
+      "id": "c-1",
+      "pitch": "C4",
+      "onset_beats": 0,
+      "duration_beats": 1
+    },
+    {
+      "id": "g-1",
+      "pitch": "G4",
+      "onset_beats": 1,
+      "duration_beats": 1
+    },
+    {
+      "id": "c-2",
+      "pitch": "C5",
+      "onset_beats": 2,
+      "duration_beats": 2
+    }
+  ]
+}

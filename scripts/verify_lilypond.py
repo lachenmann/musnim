@@ -1,29 +1,38 @@
-"""Real LilyPond 2.26 -> SVG -> note identifiers smoke test for ZAR-001.
+"""Actual LilyPond 2.26 → SVG integration check for ZAR-001.
 
-Requires MUSNIM_LILYPOND to reference lilypond.exe, or lilypond in PATH.
-Unlike the unit tests, this checks the actual external engraving engine.
+Musical chronology is supplied by naturmotiv_events.json. LilyPond's SVG DOM
+order describes graphics and can differ from the chronological note order.
 """
+import json
 from pathlib import Path
 
-from musnim import LilyPondRenderer, semantic_note_ids
+from musnim import (
+    LilyPondError, LilyPondRenderer, semantic_note_ids, validate_note_coverage,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
-SCORE = ROOT / "projects" / "ZAR-001" / "score" / "naturmotiv_reduccion.ly"
+SCORE_DIR = ROOT / "projects" / "ZAR-001" / "score"
+SCORE = SCORE_DIR / "naturmotiv_reduccion.ly"
+EVENTS = SCORE_DIR / "naturmotiv_events.json"
 OUTPUT = ROOT / "projects" / "ZAR-001" / "_build" / "lilypond"
 
 
 def main() -> None:
+    score_events = json.loads(EVENTS.read_text(encoding="utf-8"))["events"]
+    expected = tuple(event["id"] for event in score_events)
     svg = LilyPondRenderer().render_svg(SCORE, OUTPUT)
-    actual = semantic_note_ids(svg)
-    expected = ("c-1", "g-1", "c-2")
+    observed = semantic_note_ids(svg)
+
     print(f"SVG generado: {svg}")
-    print(f"Identificadores SVG encontrados: {actual}")
-    if actual != expected:
-        raise SystemExit(
-            f"ERROR: identificadores de nota inesperados. "
-            f"Esperados: {expected}; obtenidos: {actual}"
-        )
-    print("OK: LilyPond 2.26 -> SVG con IDs semánticos Do-Sol-Do.")
+    print(f"Orden gráfico SVG: {observed}")
+    print(f"Orden musical de la reducción: {expected}")
+    try:
+        validate_note_coverage(expected, observed)
+    except LilyPondError as error:
+        raise SystemExit(f"ERROR: {error}") from error
+
+    print("OK: LilyPond 2.26 → SVG con todas las notas identificadas.")
+    print("La cronología musical proviene del manifiesto de eventos, no del DOM SVG.")
 
 
 if __name__ == "__main__":

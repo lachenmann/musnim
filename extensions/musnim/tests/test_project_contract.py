@@ -36,3 +36,24 @@ def test_lilypond_source_has_three_semantic_note_tags():
 def test_score_provenance_disclaims_exact_rhythm():
     note = (PROJECT / "README.md").read_text(encoding="utf-8").lower()
     assert "reducción" in note and "compases 1–21" in note
+
+
+
+def test_musical_event_order_is_a_separate_contract_from_svg():
+    data = json.loads(
+        (PROJECT / "score" / "naturmotiv_events.json").read_text(encoding="utf-8")
+    )
+    events = data["events"]
+    assert data["schema"] == "musnim.note-events.v0.1"
+    assert [(event["id"], event["pitch"]) for event in events] == [
+        ("c-1", "C4"), ("g-1", "G4"), ("c-2", "C5"),
+    ]
+    assert [event["onset_beats"] for event in events] == [0, 1, 2]
+    assert [event["duration_beats"] for event in events] == [1, 1, 2]
+    source = (PROJECT / "score" / "naturmotiv_reduccion.ly").read_text(
+        encoding="utf-8"
+    )
+    ids_in_lilypond = re.findall(
+        r'data-musnim-id\s*\.\s*"([^"]+)"', source
+    )
+    assert ids_in_lilypond == [event["id"] for event in events]

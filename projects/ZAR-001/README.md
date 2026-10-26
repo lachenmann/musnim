@@ -14,6 +14,12 @@ compases 1–21, sus instrumentos transpositores y la sincronización con
 una interpretación musical requieren un cotejo documental posterior.
 Las razones de afinación expuestas son modelos ideales.
 
+`score/naturmotiv_events.json` define el orden musical de Do–Sol–Do
+(IDs, alturas, inicios y duraciones esquemáticos). LilyPond genera el SVG
+con un orden interno de nodos independiente, comprobado por presencia
+exacta de IDs. Un orden del DOM diferente al musical es una propiedad
+admisible del grabado, y no modifica la cronología de la reducción.
+
 ## Render
 
 Con dependencias externas instaladas y la extensión importable:

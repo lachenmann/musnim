@@ -17,8 +17,13 @@
 1. Las razones acústicas son Fraction exactas.
 2. Las partituras usan LilyPond y producen SVG vectorial.
 3. Cada nota animable deberá conservar un ID semántico estable:
-   data-musnim-id. La selección geométrica por ID se implementará
-   y comprobará en el siguiente hito; el prototipo importa el SVG entero.
+   data-musnim-id. El orden de los elementos en el árbol SVG describe el
+   grabado y puede diferir del orden musical. El contrato temporal inicial
+   está en projects/ZAR-001/score/naturmotiv_events.json (IDs, alturas,
+   inicios y duraciones). validate_note_coverage verifica igualdad exacta
+   de IDs y preserva el orden musical. La selección geométrica por ID
+   se implementará y comprobará en el siguiente hito; el prototipo
+   todavía importa el SVG entero.
 4. cues.json define tiempos del prototipo, independientes de los
    tiempos de interpretación de una grabación específica.
 5. Las grabaciones externas requieren autorización o régimen

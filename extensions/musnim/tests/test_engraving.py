@@ -1,7 +1,7 @@
 import subprocess
 import pytest
 
-from musnim.engraving import LilyPondRenderer, LilyPondError, semantic_note_ids
+from musnim.engraving import LilyPondRenderer, LilyPondError, semantic_note_ids, validate_note_coverage
 
 
 def test_extract_semantic_note_identifiers(tmp_path):
@@ -38,3 +38,34 @@ def test_render_reports_failed_executable(tmp_path, monkeypatch):
 def test_invalid_file_rejected(tmp_path):
     with pytest.raises(LilyPondError, match="Fuente LilyPond inválida"):
         LilyPondRenderer().render_svg(tmp_path / "missing.ly", tmp_path)
+
+
+
+def test_lilypond_svg_dom_order_is_independent_of_musical_time(tmp_path):
+    """Regression: real 2.26 SVG yielded g-1, c-2, c-1 on Windows."""
+    svg = tmp_path / "reordered.svg"
+    svg.write_text(
+        '<svg xmlns="http://www.w3.org/2000/svg">'
+        '<g data-musnim-id="g-1"/>'
+        '<g data-musnim-id="c-2"/>'
+        '<g data-musnim-id="c-1"/>'
+        '</svg>',
+        encoding="utf-8",
+    )
+    observed_dom_order = semantic_note_ids(svg)
+    assert observed_dom_order == ("g-1", "c-2", "c-1")
+    assert validate_note_coverage(
+        ("c-1", "g-1", "c-2"), observed_dom_order
+    ) == ("c-1", "g-1", "c-2")
+
+
+def test_coverage_rejects_missing_or_unexpected_ids():
+    with pytest.raises(LilyPondError, match="IDs ausentes"):
+        validate_note_coverage(("c-1", "g-1", "c-2"), ("c-1", "g-1"))
+    with pytest.raises(LilyPondError, match="IDs inesperados"):
+        validate_note_coverage(("c-1",), ("c-1", "x"))
+
+
+def test_coverage_rejects_duplicated_score_ids():
+    with pytest.raises(LilyPondError, match="repetidos"):
+        validate_note_coverage(("c-1", "c-1"), ("c-1",))
