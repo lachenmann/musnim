@@ -52,3 +52,40 @@ Technical limitations: graphic ID preservation needs verification on the
 actual SVG emitted by LilyPond and imported by Manim. The model is
 currently single-voice; orchestral notes of Strauss measures 1–21 will
 follow after the critical score transcription in Issue #3.
+
+## Real Windows diagnostic — 2026-10-26
+
+The user executed scripts/inspect_semantic_notes.py on the D: development
+installation, using LilyPond 2.26.0 and Manim Community 0.22.0.
+
+Observed SVG:
+projects/ZAR-001/_build/lilypond/naturmotiv_reduccion-451326967fbe.svg
+
+| Score event | SVG graphic ID | SVG tag | Onset/duration in beats | Manim center (x,y) | Width × height |
+| --- | --- | --- | --- | --- | --- |
+| c-1 (C4) | zar-nature-01 | g | 0 / 1 | (-0.290, -1.326) | 0.555 × 0.463 |
+| g-1 (G4) | zar-nature-02 | g | 1 / 1 | (1.094, -0.475) | 0.555 × 0.463 |
+| c-2 (C5) | zar-nature-03 | g | 2 / 2 | (2.452, 0.163) | 0.586 × 0.463 |
+
+The diagnostic ended with:
+OK: tres cabezas de nota accesibles por identidad musical.
+
+All three objects have individual dimensions and coordinates. The actual
+LilyPond symbols have SVG tag g, so group lookup through Manim's
+id_to_vgroup_dict is sufficient for this initial example; the importer also
+supports leaf shapes for future score layouts.
+
+The event chronology follows the manifest, not the DOM order. This
+validates semantic selection and geometry retrieval in Windows. It does
+not yet establish temporal animation, label alignment, or audiovisual
+render quality; those require inspection of SemanticNotesDemo.mp4.
+
+### Next integration step
+
+From the already-active feature/M3-semantic-notes branch:
+
+    cd D:\Proyectos\musnim
+    .\.venv\Scripts\python.exe -m manim -ql projects/ZAR-001/scenes/semantic_notes_demo.py SemanticNotesDemo
+
+Review 8 s (C4), 11 s (G4), 14 s (C5), the alignment of each label,
+and the final 2:3:4 formula. The approved 79-second ZAR-001 remains intact.
