@@ -6,7 +6,7 @@
 - [x] ZAR-001 con reducción, cue sheet, guion y fuentes.
 - [x] CI Python de Musnim en verde en Windows, macOS y Linux (26-10-2026).
 - [x] LilyPond 2.26 instalado en D: y salida SVG con tres IDs confirmada por el usuario.
-- [ ] Verificación de cobertura de IDs independiente del orden DOM tras este cambio.
+- [x] Verificación de cobertura de IDs independiente del orden DOM (LilyPond real 2.26.0 en Windows, 26-10-2026).
 - [ ] Manim + LaTeX + FFmpeg probados localmente.
 - [ ] Revisión de PR y merge hacia main.
 - [ ] Notas Obsidian organizadas fuera del repo público.
