@@ -89,3 +89,43 @@ From the already-active feature/M3-semantic-notes branch:
 
 Review 8 s (C4), 11 s (G4), 14 s (C5), the alignment of each label,
 and the final 2:3:4 formula. The approved 79-second ZAR-001 remains intact.
+
+
+## M3 MP4 rendered in Windows — 2026-10-26
+
+User execution confirmed that Manim Community 0.22.0 finished
+SemanticNotesDemo successfully: "Rendered SemanticNotesDemo",
+"Played 12 animations", and produced the MP4 in:
+
+    media/videos/semantic_notes_demo/480p15/SemanticNotesDemo.mp4
+
+The reported FFmpeg message "Some options were not used" did not stop
+the renderer. The log established file creation; dimensions, duration,
+presence of audio and alignment of highlighted notes still require
+independent verification.
+
+To inspect media container and stream properties (19 ± 1 seconds):
+
+    cd D:\Proyectos\musnim
+    git pull --ff-only origin feature/M3-semantic-notes
+    .\.venv\Scripts\python.exe .\scripts\qa_semantic_notes_video.py
+
+Open the MP4 from PowerShell:
+
+    Start-Process "D:\Proyectos\musnim\media\videos\semantic_notes_demo\480p15\SemanticNotesDemo.mp4"
+
+## Visual and musical acceptance gate
+
+- [x] LilyPond SVG elements resolved to three individual Manim objects.
+- [x] Manim rendered the 12-animation demonstration on Windows.
+- [ ] FFprobe technical video/audio verification (run local QA script).
+- [ ] Inspect 8–9.5 seconds: Do4 (c-1) is the selected head and audio C4.
+- [ ] Inspect 11–12.5 seconds: G4 (g-1) is selected and audio G4.
+- [ ] Inspect 14–15.5 seconds: Do5 (c-2) is selected and audio C5.
+- [ ] Inspect independent labels align with the appropriate noteheads.
+- [ ] Check the ending 2:3:4 expression is readable and uncrowded.
+- [ ] Examine output warnings and verify color/stroke behavior.
+- [ ] Review the uploaded movie before completing M3 or merging PR #6.
+
+A metadata-only success means the video has the required streams and
+rough duration. It cannot prove that the correct note is illuminated.
