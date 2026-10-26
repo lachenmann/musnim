@@ -56,3 +56,12 @@ render. Se registró `CueClock.exchange` para suprimir la doble exposición
 transitoria de fórmulas mediante dos fases secuenciales. **La corrección
 necesita un tercer render de validación** antes de aprobarse visualmente.
 Informe: `docs/musnim/VIDEO_REVIEW_2026-10-26.md`.
+
+## Tercer corte auditado: aprobación técnica (26-10-2026)
+
+El tercer MP4 de 79,164 s (720p, 30 fps, H.264/AAC) se inspeccionó
+fotograma a fotograma en los cruces de fórmula. Se resolvió el defecto
+de doble exposición de expresiones mediante `CueClock.exchange`.
+La pista de audio es idéntica al PCM de los dos cortes anteriores.
+Quedan abiertas la inspección de logs SVG y la animación individual
+según IDs de LilyPond. Ver `docs/musnim/VIDEO_REVIEW_2026-10-26.md`.

@@ -114,3 +114,66 @@ real de la doble exposición **todavía debe revisarse fotograma a
 fotograma** en 27–28, 32–33, 65–66 y 71–72 s. La salida publicada
 del render no contiene información suficiente para aprobar el resultado
 visual; el archivo local se mantiene fuera del repositorio Git.
+
+
+## Tercer MP4 HD: auditoría visual y acústica cerrada (26-10-2026)
+
+**Archivo efectivamente inspeccionado:** `ZAR-001_v3_720p30.mp4`,
+entregado por el usuario. Resultados de FFprobe:
+
+- Contenedor: **79,163737 s**; 2 455 428 bytes.
+- Video: **H.264**, **1280×720**, **30 fps**, 2375 fotogramas.
+- Audio: **AAC estéreo**, **48 kHz**, duración **79,04 s**.
+
+### Transiciones (comparación V2/V3)
+
+Se inspeccionaron fotogramas en ventanas de 0,2 s alrededor de
+27,4; 32,4; 65,4; 71,4 s; adicionalmente se revisó el guion visual
+general a 8, 10, 12, 14, 17, 19, 20,5, 21,5, 22, 25, 27, 30,
+32,5, 39, 42, 50, 56, 60, 65,5, 71,5, 75 y 78 s.
+
+- [x] **27–28 s**: la proporción 2:3:4 desaparece antes del
+  surgimiento de quinta y octava.
+- [x] **32–33 s**: la fórmula de quinta/octava sale antes de
+  la tríada mayor 4:5:6.
+- [x] **65–66 s**: la tríada mayor 4:5:6 sale antes de 10:12:15.
+- [x] **71–72 s**: la tríada menor 10:12:15 sale antes del retorno
+  a 4:5:6.
+- [x] En los puntos de máximo solapamiento del segundo corte,
+  el tercero ofrece fotogramas de transición vacíos, sin doble
+  exposición de expresiones.
+- [x] Durante estados estables, las fórmulas y la partitura están
+  distribuidas por regiones independientes.
+- [ ] Permanecen pendientes la alineación por nota individual
+  y su animación temporal (Issue #5).
+- [ ] La comprobación de advertencias del log de Manim, en particular
+  `svgelements.Text`, requiere el log completo; un MP4 solo
+  permite validar el resultado visible.
+
+### Comparación acústica de las tres versiones
+
+Se extrajo PCM mono de los tres MP4 con FFmpeg a **48 kHz / 16 bits**.
+Los tres flujos tienen **3 793 920 muestras** cada uno y presentan
+el mismo SHA-256:
+
+`4d1fa61bcc26e701995c96ae98a985cb08927d5c344850d3835ba23f645f876c`
+
+Por tanto, el contenido de la pista sintética decodificada es idéntico
+muestra por muestra entre V1, V2 y V3. Frecuencias dominantes por FFT:
+
+- 9–11 s: Do, **261,5 Hz** aprox.
+- 12–14 s: Sol, **392,5 Hz** aprox.
+- 15–17 s: Do agudo, **523,5 Hz** aprox.
+- 34–36 s: tríada mayor justa, Mi **327 Hz** aprox.
+- 46–48 s: tríada menor justa, Mi bemol **314 Hz** aprox.
+
+Esta validación establece continuidad técnica del sonido y
+coherencia de las alturas didácticas. La evaluación de un audio
+orquestal sincronizado y la transcripción fiel de los cc. 1–21
+pertenecen a hitos posteriores.
+
+**Veredicto:** cerrar el defecto de doble exposición de fórmulas
+(P2, resuelto en V3). Aprobación visual técnica de esta tercera
+iteración para pasar al prototipo de animación semántica. Conservar
+la revisión final del PR #1 abierta hasta verificar las advertencias
+SVG y los restantes requisitos documentados.

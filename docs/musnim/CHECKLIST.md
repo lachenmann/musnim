@@ -20,7 +20,9 @@
 - [x] Hallazgos P1/P2 y primera refactorización de escena registrados.
 - [x] Segundo render 720p30 comparado con el primero: solapes persistentes corregidos.
 - [x] Tercer render generado y QA técnico aprobado en Windows: 42 animaciones, 79,164 s, 1280×720, ~30 fps, H.264/AAC (26-10-2026).
-- [ ] Inspeccionar visualmente los fundidos secuenciales del tercer MP4 (27,5; 32,5; 65,5; 71,5 s).
-- [ ] Comprobar ausencia de advertencias de texto SVG y audio íntegro.
+- [x] Fundidos secuenciales del tercer MP4 revisados: 27–28, 32–33, 65–66 y 71–72 s sin doble exposición.
+- [x] Audio decodificado idéntico en las tres versiones (PCM SHA-256 verificado).
+- [ ] Comprobar ausencia de advertencias SVG de texto en el log completo del tercer render.
 - [x] Generar segundo corte de revisión a 720p30 (26-10-2026).
-- [ ] Aprobar visual y musicalmente el segundo corte antes de solicitar 1080p.
+- [x] Aprobar la maquetación y las transiciones del tercer corte 720p30.
+- [ ] Animación individual de notas y sincronización por eventos musicales antes de plantear el 1080p definitivo.

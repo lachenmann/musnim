@@ -113,3 +113,16 @@ musical fina exigen una inspección del tercer MP4 real.
 La duración difiere ligeramente del valor nominal de 79,0 s; queda
 dentro de la tolerancia ya documentada de ±2 s. Conservar los renders
 anteriores para realizar comparaciones reproducibles.
+
+## Verificación independiente del tercer MP4 aportado (26-10-2026)
+
+Tras recibir el archivo real, FFprobe confirmó **79,163737 s, 1280×720,
+30 fps, H.264, AAC estéreo 48 kHz, 2375 fotogramas**. La pista sonora
+decodificada a PCM mono de 48 kHz tiene **3 793 920 muestras** y su
+SHA-256 coincide exactamente con las versiones 1 y 2:
+
+`4d1fa61bcc26e701995c96ae98a985cb08927d5c344850d3835ba23f645f876c`.
+
+La verificación visual muestra que las transiciones de fórmula son
+secuenciales y carecen de doble exposición. Para el detalle por segundo,
+consultar `VIDEO_REVIEW_2026-10-26.md`.
