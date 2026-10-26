@@ -1,0 +1,25 @@
+{
+  "id": "ZAR-001",
+  "status": "PROTOTIPO_ANALITICO_POR_COTEJAR",
+  "source_scope": "Introducción cc. 1–21: reducción conceptual de alturas",
+  "sync_model": "Segundos del prototipo; no tiempos de una grabación de Strauss",
+  "cues": [
+    {"time": 0, "label": "Amanecer sobre Do"},
+    {"time": 8, "label": "Naturmotiv en LilyPond"},
+    {"time": 20, "label": "Armónicos 2:3:4"},
+    {"time": 27, "label": "Quinta y octava"},
+    {"time": 32, "label": "Tríada mayor justa"},
+    {"time": 39, "label": "Terceras y coma sintónica"},
+    {"time": 44, "label": "Tríada menor justa"},
+    {"time": 51, "label": "Comparación de terceras menores"},
+    {"time": 56, "label": "Retornos del motivo"},
+    {"time": 79, "label": "Fin"}
+  ],
+  "source_measure_map": [
+    {"measures": "1-4", "feature": "pedal de Do", "status": "pendiente de cotejo instrumental"},
+    {"measures": "5-6", "feature": "primera aparición del motivo", "status": "verificación parcial"},
+    {"measures": "9-10", "feature": "segunda aparición", "status": "verificación bibliográfica"},
+    {"measures": "13-14", "feature": "tercera aparición", "status": "verificación bibliográfica"},
+    {"measures": "15-21", "feature": "crecimiento hacia el clímax", "status": "pendiente de transcripción"}
+  ]
+}
