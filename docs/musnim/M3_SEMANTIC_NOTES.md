@@ -129,3 +129,68 @@ Open the MP4 from PowerShell:
 
 A metadata-only success means the video has the required streams and
 rough duration. It cannot prove that the correct note is illuminated.
+
+
+## First 19-second MP4 audited — 2026-10-26
+
+The user uploaded SemanticNotesDemo.mp4 and the actual media was inspected.
+
+- Duration: **19.029333 seconds**, H.264 854×480 at ~15 fps,
+  AAC stereo, 48 kHz.
+- C4 (c-1) highlighted at 8.3–9.0 s; audio fundamental
+  measured around 261.5 Hz (audible 8–11 s).
+- G4 (g-1) highlighted at 11.3–12.0 s; audio around
+  392.6 Hz (audible 11–14 s).
+- C5 (c-2) highlighted at 14.3–15.0 s; audio around
+  523 Hz (audible 14–19 s).
+- Each label sits under its corresponding LilyPond notehead,
+  and the final MathTex ratio 2:3:4 is legible at ~16.6 s.
+- The orange highlight affects only the selected notehead,
+  leaving the other two notes white.
+- An introductory low C around 131 Hz sounds between
+  seconds 1 and 7 (the introductory pedal).
+
+**Accepted:** correct note selection by semantic ID, attack order,
+label alignment, and frequency correspondence.
+
+**Identified limitation:** a highlighted note fades back to white
+approximately 1.3 seconds after onset, while its sound continues.
+The last half note (C5) occupies two beats in the LilyPond
+reduction/manifest. At the explicitly chosen three seconds per beat,
+its intended duration is six seconds (14–20 s), whereas the first
+clip contains only five seconds of C5 (14–19 s).
+
+The first video remains untouched as a verified attack experiment.
+The event manifest is still schematic rather than an exact transcription
+of Richard Strauss.
+
+## Second sustained-note experiment (M3 v2) — pending render
+
+New files:
+
+- musnim.note_event_audio: deterministic WAV from the event manifest,
+  mapping one beat to three seconds.
+- semantic_notes_sustain_demo.py: highlights notes from their onset
+  until their musical end, including the release interval.
+- qa_sustained_notes_video.py: FFprobe test for the 20-second clip.
+- Unit tests verify C4 = [8,11), G4 = [11,14),
+  C5 = [14,20), and exactly 20 seconds of audio.
+
+This new scene has its own output basename and preserves both the
+original 19-second experiment and the 79-second Zarathustra v3 video.
+
+Commands for Windows (working branch feature/M3-semantic-notes):
+
+    cd D:\Proyectos\musnim
+    git pull --ff-only origin feature/M3-semantic-notes
+    .\.venv\Scripts\python.exe -m manim -ql projects/ZAR-001/scenes/semantic_notes_sustain_demo.py SemanticNotesSustainDemo
+    .\.venv\Scripts\python.exe .\scripts\qa_sustained_notes_video.py
+
+Expected video path:
+
+    media/videos/semantic_notes_sustain_demo/480p15/SemanticNotesSustainDemo.mp4
+
+Evaluate frames during full note durations, especially 9.5 s,
+12.5 s, and 18.0 s, when notes are still sounding, and the
+boundaries at 11, 14 and 20 s. Only an actual MP4 review can
+complete the visual acceptance gate for this new design.
