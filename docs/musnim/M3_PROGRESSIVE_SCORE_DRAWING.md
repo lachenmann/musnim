@@ -80,9 +80,9 @@ y el cierre.
 
 ## Criterios de aceptación
 
-- [ ] El SVG LilyPond 2.26 contiene roles de StaffSymbol, Clef,
-      TimeSignature, Stem y BarLine y un ID para cada NoteHead.
-- [ ] Manim importa geometría individual para los ocho grupos
+- [x] El SVG LilyPond 2.26 contiene roles de StaffSymbol, Clef,
+      TimeSignature, Stem y BarLine, e IDs de las tres NoteHead (Windows 26-10-2026).
+- [x] Manim importa geometría individual para los siete grupos
       Staff/Clef/Meter/Stem×3/BarLine y tres NoteHeads.
 - [ ] El pentagrama se traza progresivamente, conservando grosor,
       separación y contornos legibles.
@@ -155,3 +155,40 @@ en Windows antes de declarar la solución completa.
 Si los siete roles se detectan y se validan las tres cabezas de nota,
 renderizar con el comando de la sección anterior. Conservar la salida
 completa de errores si algún símbolo sigue ausente.
+
+## Segundo ensayo real: diez componentes reconocidos (26-10-2026)
+
+El usuario ejecutó la versión corregida de `inspect_score_drawing.py`
+en Windows, desde `D:\Proyectos\musnim`. LilyPond 2.26 generó el
+SVG `naturmotiv_drawing-79685e214f5a.cropped.svg` y el diagnóstico
+terminó con **OK**.
+
+| Rol / nota | ID gráfico | Centro Manim (x, y) | Tamaño (ancho × alto) |
+| --- | --- | --- | --- |
+| Pentagrama | draw-staff | (-0.011, -0.049) | 8.379 × 1.703 |
+| Clave | draw-clef | (-3.330, 0.001) | 1.095 × 3.114 |
+| Compás | draw-meter | (-1.773, -0.050) | 0.737 × 0.894 |
+| Plica Do4 | draw-stem-c4 | (-0.040, -0.542) | 0.055 × 1.410 |
+| Plica Sol4 | draw-stem-g4 | (1.344, 0.309) | 0.055 × 1.410 |
+| Plica Do5 | draw-stem-c5 | (2.187, -0.637) | 0.055 × 1.379 |
+| Barra final | draw-barline | (4.055, -0.049) | 0.289 × 1.703 |
+| Cabeza Do4 | c-1 | disponible | 0.555 × 0.463 |
+| Cabeza Sol4 | g-1 | disponible | 0.555 × 0.463 |
+| Cabeza Do5 | c-2 | disponible | 0.586 × 0.463 |
+
+**Conclusión de integración:** el traslado de los atributos de los
+grobs iniciales al bloque `\new Staff \with { ... }` permitió
+identificar efectivamente todos los roles, con geometrías positivas
+y separadas. Las plicas y cabezas siguen enlazadas a los eventos
+musicales de Do–Sol–Do.
+
+**Pendiente:** las dimensiones y los IDs demuestran acceso individual
+a la geometría; queda por comprobar cómo se dibujan en movimiento.
+El siguiente control es generar el MP4 de `AnimatedScoreDrawingDemo`,
+inspeccionando pentagrama, clave, compás, notas, plicas, barra y audio.
+
+    cd D:\Proyectos\musnim
+    .\.venv\Scripts\python.exe -m manim -ql projects/ZAR-001/scenes/score_drawing_demo.py AnimatedScoreDrawingDemo
+    .\.venv\Scripts\python.exe .\scripts\qa_score_drawing_video.py
+
+Conservar el PR #7 en borrador hasta revisar el MP4 real.
