@@ -100,3 +100,13 @@ def test_initial_grobs_are_tagged_at_staff_creation():
     # Music-specific noteheads and stems keep their single-event overrides.
     assert source.count(r"\once \override Stem.output-attributes") == 3
     assert source.count(r"\once \override NoteHead.output-attributes") == 3
+
+
+def test_drawing_score_uses_numeric_four_four():
+    """The source must request 4/4 digits instead of common-time C."""
+    score = (
+        Path(__file__).resolve().parents[3]
+        / "projects" / "ZAR-001" / "score" / "naturmotiv_drawing.ly"
+    ).read_text(encoding="utf-8")
+    assert r"\numericTimeSignature" in score
+    assert score.index(r"\numericTimeSignature") < score.index(r"\time 4/4")

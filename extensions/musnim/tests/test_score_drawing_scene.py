@@ -46,3 +46,12 @@ def test_drawing_scene_uses_music_events_for_audio_and_graphic_onsets():
 def test_drawing_diagnostic_parses_without_native_graphics():
     path = ROOT / "scripts" / "inspect_score_drawing.py"
     ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+
+
+def test_mathematical_caption_uses_dedicated_lower_band():
+    """Prevent the formula/label collision observed in video v1."""
+    source = (PROJECT / "scenes" / "score_drawing_demo.py").read_text(
+        encoding="utf-8"
+    )
+    assert "frequency_ratio.move_to(DOWN * 2.48)" in source
+    assert "frequency_ratio.move_to(DOWN * 1.68)" not in source

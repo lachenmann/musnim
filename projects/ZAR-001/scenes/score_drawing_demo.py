@@ -65,7 +65,8 @@ class AnimatedScoreDrawingDemo(Scene):
         )
         if frequency_ratio.width > 9:
             frequency_ratio.scale_to_fit_width(9)
-        frequency_ratio.move_to(DOWN * 1.68)
+        # Keep the equation in its own lower band beneath pitch labels.
+        frequency_ratio.move_to(DOWN * 2.48)
 
         wav = synthesize_scheduled_notes(
             PROJECT / "audio" / "score_drawing_20s.wav", schedule

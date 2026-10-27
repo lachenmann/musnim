@@ -27,6 +27,8 @@
       #'((id . "draw-barline") (data-musnim-role . "barline"))
   } {
     \clef treble
+    % Teaching notation uses numeric 4/4 instead of common-time C.
+    \numericTimeSignature
     \time 4/4
 
     \once \override Stem.output-attributes =
