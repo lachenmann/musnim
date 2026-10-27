@@ -274,3 +274,44 @@ de los primeros 21 compases de Strauss corresponde al Issue #3.
 
 Conservar la primera versión del MP4 antes de volver a renderizar.
 El control de SVG debe aprobar antes de intentar el segundo video.
+
+
+## Segundo render: advertencia sobre caché de Manim (27-10-2026)
+
+El usuario confirmó el segundo SVG real:
+naturmotiv_drawing-4d3b295b6afb.svg. Los siete roles de partitura y
+las tres cabezas de nota siguen disponibles, con geometrías positivas.
+La indicación de compás cambió de dimensiones (antes 0,737×0,894,
+ahora 0,688×1,712), coherente con las dos cifras apiladas de 4/4.
+
+Manim 0.22 completó el segundo render: 22 animaciones; 20,032 s,
+854×480, 15 fps, H.264/AAC; QA técnico OK. Sin embargo, todas
+las animaciones figuran como "Using cached data". Los segmentos
+pueden ser válidos porque Manim calcula claves de caché por estado
+de animación, pero para aprobar cambios que dependen de archivos
+SVG externos resulta prudente realizar un render independiente de
+la reutilización de esos segmentos.
+
+Manim 0.22 ofrece "--disable_caching" para saltarse la lectura de
+segmentos previamente guardados. La opción sigue generando archivos
+de caché nuevos. El anterior "--flush_cache" ha sido sustituido
+por la interfaz "manim cache clear" en la versión 0.22.
+
+Se añadió un script PowerShell para generar una copia temporal
+del MP4 existente, ejecutar el render fresco y comprobar después
+imagen, audio y duración:
+
+    cd D:\Proyectos\musnim
+    git pull --ff-only origin feature/M3-score-drawing
+    powershell -ExecutionPolicy Bypass -File .\scripts\render_score_drawing_fresh.ps1
+
+El resultado esperado sigue siendo:
+
+    media/videos/score_drawing_demo/480p15/AnimatedScoreDrawingDemo.mp4
+
+**Criterio de cierre:** inspeccionar en el MP4 fresco el 4/4
+numérico alrededor de 4–6 s y confirmar en 17–19 s que la
+fórmula 2:3:4 ocupa una franja independiente de los nombres
+de notas. Conservar el PR #7 en borrador hasta contar con
+esa inspección visual. El audio mantiene el calendario didáctico
+Do4 8–11 s, Sol4 11–14 s y Do5 14–20 s.

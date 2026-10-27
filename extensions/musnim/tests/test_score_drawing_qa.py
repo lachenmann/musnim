@@ -34,3 +34,15 @@ def test_diagnostic_and_qa_scripts_are_valid_python():
     for name in ("inspect_score_drawing.py", "qa_score_drawing_video.py"):
         path = ROOT / "scripts" / name
         ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+
+
+def test_fresh_render_bypasses_cache_and_preserves_prior_movie():
+    """Prevent stale movie segments after edits to LilyPond and MathTex."""
+    path = ROOT / "scripts" / "render_score_drawing_fresh.ps1"
+    source = path.read_text(encoding="utf-8")
+    assert "--disable_caching" in source
+    assert "AnimatedScoreDrawingDemo" in source
+    assert "qa_score_drawing_video.py" in source
+    assert "Copy-Item" in source
+    assert source.index("Copy-Item") < source.index("--disable_caching")
+    assert "if ($LASTEXITCODE -ne 0)" in source
