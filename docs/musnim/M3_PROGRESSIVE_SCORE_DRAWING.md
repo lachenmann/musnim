@@ -192,3 +192,39 @@ inspeccionando pentagrama, clave, compás, notas, plicas, barra y audio.
     .\.venv\Scripts\python.exe .\scripts\qa_score_drawing_video.py
 
 Conservar el PR #7 en borrador hasta revisar el MP4 real.
+
+
+## Primera generación real del video 20 s (26-10-2026)
+
+El usuario ejecutó en Windows la escena `AnimatedScoreDrawingDemo`
+con Manim Community 0.22.0, a partir de la misma partitura LilyPond
+que había superado el diagnóstico estructural de diez componentes.
+
+- **22 animaciones** procesadas.
+- Archivo resultante: `media/videos/score_drawing_demo/480p15/AnimatedScoreDrawingDemo.mp4`.
+- Verificación con `qa_score_drawing_video.py` completada con **OK**.
+- Duración: **20,032 segundos**.
+- Resolución: **854 × 480**, **15 fps**.
+- Códecs: **H.264** (imagen) y **AAC** (audio).
+- El mensaje de FFmpeg `Some options were not used` fue una advertencia
+  no bloqueante. En el fragmento del log enviado no aparecen
+  advertencias de tipos de elementos SVG no admitidos.
+
+**Conclusión:** el flujo de grabado por componentes superó la
+integración real de ejecución y los controles técnicos de contenedor
+en Windows. La inspección visual de las animaciones, el contorno de los
+glifos y el alineamiento entre notas y sonido continúa pendiente,
+por lo que el PR #7 debe permanecer en borrador.
+
+### Próxima comprobación
+
+Abrir o adjuntar el video generado:
+
+    Start-Process "D:\Proyectos\musnim\media\videos\score_drawing_demo\480p15\AnimatedScoreDrawingDemo.mp4"
+
+Revisar los primeros segundos para comprobar que el pentagrama se
+traza con las cinco líneas, que la clave y el compás se dibujan
+correctamente y que cada plica acompaña a su nota. Revisar
+especialmente los segundos 8, 11, 14, 17 y 19 en sincronía con
+la pista sintética. Los criterios relativos a apariencia y
+sincronización quedarán pendientes hasta examinar el MP4 real.
