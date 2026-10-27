@@ -228,3 +228,49 @@ correctamente y que cada plica acompaña a su nota. Revisar
 especialmente los segundos 8, 11, 14, 17 y 19 en sincronía con
 la pista sintética. Los criterios relativos a apariencia y
 sincronización quedarán pendientes hasta examinar el MP4 real.
+
+## Auditoría del primer MP4 por fotogramas — 26-10-2026
+
+Se recibió y revisó directamente AnimatedScoreDrawingDemo.mp4 generado en
+Windows. FFprobe confirmó 20,032 s, 854×480, 15 fps, 300 fotogramas,
+H.264 y AAC estéreo a 48 kHz.
+
+### Hallazgos aprobados
+
+- [x] Se trazan progresivamente las cinco líneas del pentagrama (≈1–3,3 s).
+- [x] La clave de sol y el indicador de compás se construyen por etapas.
+- [x] Las tres cabezas y sus plicas se dibujan individualmente.
+- [x] La barra final se añade alrededor de 18 s.
+- [x] Los rótulos de Do, Sol y Do' se alinean con las respectivas notas.
+- [x] El resaltado de las notas se mantiene durante los sonidos.
+- [x] La pista contiene Do grave ≈131 Hz (introducción), Do4 ≈262 Hz
+      entre 8–11 s, Sol4 ≈392 Hz entre 11–14 s y Do5 ≈523 Hz
+      entre 14–20 s, según el calendario didáctico.
+
+### Ajustes de maquetación detectados
+
+1. **P1, 17–20 s:** la ecuación f_C:f_G:f_C'=2:3:4 compartía la
+   misma franja que los nombres de las notas, dificultando su lectura.
+   El segundo código desplaza la ecuación de DOWN*1.68 a DOWN*2.48
+   unidades de Manim, manteniendo intactos los eventos y la duración.
+2. **P2, ≈4–5 s:** el compás 4/4 aparecía como C, la notación usual
+   de compás común. Para mostrar explícitamente 4/4 en esta explicación,
+   se añadió el comando LilyPond `\numericTimeSignature` antes
+   de `\time 4/4`, preservando el rol gráfico `draw-meter`.
+
+Los cambios están en el commit `b48698d0` del PR #7, junto con
+dos pruebas de regresión. **La corrección visual todavía requiere
+un segundo render y la inspección del nuevo MP4.** La partitura
+sigue siendo una reducción didáctica; el análisis orquestal exacto
+de los primeros 21 compases de Strauss corresponde al Issue #3.
+
+### Repetir el control en el PC
+
+    cd D:\Proyectos\musnim
+    git pull --ff-only origin feature/M3-score-drawing
+    .\.venv\Scripts\python.exe .\scripts\inspect_score_drawing.py
+    .\.venv\Scripts\python.exe -m manim -ql projects/ZAR-001/scenes/score_drawing_demo.py AnimatedScoreDrawingDemo
+    .\.venv\Scripts\python.exe .\scripts\qa_score_drawing_video.py
+
+Conservar la primera versión del MP4 antes de volver a renderizar.
+El control de SVG debe aprobar antes de intentar el segundo video.
