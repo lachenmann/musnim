@@ -14,14 +14,19 @@
   ragged-right = ##t
 }
 \score {
-  \new Staff {
+  % Grobs at the start of a Staff need their metadata from context creation.
+  % A \once override inside the music may arrive after the initial grob.
+  \new Staff \with {
     \override StaffSymbol.output-attributes =
       #'((id . "draw-staff") (data-musnim-role . "staff"))
-    \once \override Clef.output-attributes =
+    \override Clef.output-attributes =
       #'((id . "draw-clef") (data-musnim-role . "clef"))
-    \clef treble
-    \once \override TimeSignature.output-attributes =
+    \override TimeSignature.output-attributes =
       #'((id . "draw-meter") (data-musnim-role . "meter"))
+    \override BarLine.output-attributes =
+      #'((id . "draw-barline") (data-musnim-role . "barline"))
+  } {
+    \clef treble
     \time 4/4
 
     \once \override Stem.output-attributes =
@@ -45,8 +50,6 @@
       #'((id . "draw-head-c5") (data-musnim-id . "c-2"))
     c''2
 
-    \once \override BarLine.output-attributes =
-      #'((id . "draw-barline") (data-musnim-role . "barline"))
     \bar "||"
   }
   \layout { }

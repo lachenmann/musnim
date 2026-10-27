@@ -82,3 +82,21 @@ def test_drawing_lilypond_file_has_all_expected_markers():
     assert owners == ["c-1", "g-1", "c-2"]
     ids = re.findall(r'\(data-musnim-id \. "([^"]+)"\)', score)
     assert ids == ["c-1", "g-1", "c-2"]
+
+
+
+def test_initial_grobs_are_tagged_at_staff_creation():
+    """Regression: LilyPond 2.26 exported only Stem role in first version."""
+    root = Path(__file__).resolve().parents[3]
+    source = (
+        root / "projects" / "ZAR-001" / "score" / "naturmotiv_drawing.ly"
+    ).read_text(encoding="utf-8")
+    prefix = source.split(r"\clef treble", 1)[0]
+    context = prefix.split(r"\new Staff \with {", 1)[1]
+    for grob in ("StaffSymbol", "Clef", "TimeSignature", "BarLine"):
+        assert r"\override " + grob + ".output-attributes" in context
+    for grob in ("Clef", "TimeSignature", "BarLine"):
+        assert r"\once \override " + grob + ".output-attributes" not in source
+    # Music-specific noteheads and stems keep their single-event overrides.
+    assert source.count(r"\once \override Stem.output-attributes") == 3
+    assert source.count(r"\once \override NoteHead.output-attributes") == 3

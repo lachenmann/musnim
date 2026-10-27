@@ -113,3 +113,45 @@ Fuentes técnicas:
 https://lilypond.org/doc/v2.26/Documentation/notation/alternative-output-formats
 https://docs.manim.community/en/stable/_modules/manim/animation/creation.html
 https://docs.manim.community/en/stable/reference/manim.mobject.svg.svg_mobject.SVGMobject.html
+
+## Primer ensayo de integración y corrección (26-10-2026)
+
+La ejecución real de `inspect_score_drawing.py` en Windows generó el SVG
+`naturmotiv_drawing-ecbba5f275b1.cropped.svg`. LilyPond 2.26.0
+entregó estos metadatos de capa:
+
+- `stem / g-1` (`draw-stem-g4`)
+- `stem / c-2` (`draw-stem-c5`)
+- `stem / c-1` (`draw-stem-c4`)
+
+El diagnóstico se detuvo correctamente: `staff` carecía de grupo
+identificado en el SVG (0 elementos). El resto de roles estructurales
+también faltaba en el inventario, por lo que el render completo de
+`AnimatedScoreDrawingDemo` seguía bloqueado.
+
+### Causa y cambio propuesto
+
+Las plicas se constituyen al procesar las notas y recibieron sus
+`\once \override`. El pentagrama `StaffSymbol` y otros grobs
+iniciales nacen durante la creación del contexto `Staff`.
+LilyPond documenta que los atributos de StaffSymbol deben configurarse
+antes de iniciar el pentagrama.
+
+Se trasladaron los atributos de `StaffSymbol`, `Clef`,
+`TimeSignature` y `BarLine` a `\new Staff \with { ... }`,
+manteniendo las plicas y cabezas de nota en la secuencia musical.
+Ahora `inspect_score_drawing.py` también muestra un inventario
+compacto de grupos del SVG si falta una capa, para distinguir
+la ausencia de etiqueta de un problema de geometría Manim.
+
+**Estado:** modificación de código y pruebas sintácticas integradas;
+el resultado con el SVG LilyPond real debe verificarse nuevamente
+en Windows antes de declarar la solución completa.
+
+    cd D:\Proyectos\musnim
+    git pull --ff-only origin feature/M3-score-drawing
+    .\.venv\Scripts\python.exe .\scripts\inspect_score_drawing.py
+
+Si los siete roles se detectan y se validan las tres cabezas de nota,
+renderizar con el comando de la sección anterior. Conservar la salida
+completa de errores si algún símbolo sigue ausente.

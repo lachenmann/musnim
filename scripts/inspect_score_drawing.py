@@ -1,5 +1,7 @@
 """Validate LilyPond 2.26 SVG grob roles and Manim geometry before rendering."""
 from pathlib import Path
+from collections import Counter
+from xml.etree import ElementTree as ET
 
 from musnim import LilyPondRenderer
 from musnim.score_layers import read_score_layers
@@ -19,8 +21,6 @@ def main():
     for part in layers:
         print(f"  rol={part.role}, svg-id={part.svg_id}, owner={part.owner}")
 
-    score = DrawingScore(svg)
-    score.scale_to_fit_width(8.4)
     required = [
         ("staff", None),
         ("clef", None),
@@ -30,6 +30,34 @@ def main():
         ("stem", "c-2"),
         ("barline", None),
     ]
+    available = Counter((part.role, part.owner) for part in layers)
+    missing = [
+        (role, owner) for role, owner in required
+        if available[(role, owner)] != 1
+    ]
+    if missing:
+        root = ET.parse(svg).getroot()
+        groups = [
+            node for node in root.iter()
+            if node.tag.rsplit("}", 1)[-1] == "g"
+        ]
+        print("DIAGNÓSTICO SVG (etiquetas de grupos):")
+        print("  elementos SVG:", Counter(
+            node.tag.rsplit("}", 1)[-1] for node in root.iter()
+        ).most_common(8))
+        print("  primeros IDs de grupos:", [
+            node.attrib.get("id") for node in groups
+            if node.attrib.get("id")
+        ][:25])
+        print("  roles encontrados:", dict(available))
+        print("  roles ausentes/ambiguos:", missing)
+        raise SystemExit(
+            "Faltan etiquetas estructurales de LilyPond. "
+            "Copia la salida del diagnóstico y conserva el SVG indicado."
+        )
+
+    score = DrawingScore(svg)
+    score.scale_to_fit_width(8.4)
     for role, owner in required:
         graphic = score.layer(role, owner=owner)
         x, y, _ = graphic.get_center()
