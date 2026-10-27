@@ -361,3 +361,47 @@ Si aparece el rol `ledger` con dimensiones propias, y el diagnóstico
 concluye en `OK`, ejecutar el render fresco conservando la versión
 anterior y efectuar QA. Conservar este PR abierto hasta inspeccionar
 visualmente que la línea atraviesa la cabeza Do4 durante la escritura.
+
+
+## Tercera integración: línea adicional SVG validada en Windows — 27-10-2026
+
+El usuario ejecutó `inspect_score_drawing.py` después de actualizar
+al commit `6a72decd`. LilyPond 2.26 produjo el SVG
+`naturmotiv_drawing-573e2342133e.cropped.svg`, con el grupo
+`draw-ledgers`, rol `ledger`, sin propietario específico.
+
+Resultados de geometría real (unidades de Manim):
+
+- `ledger/None`: centro (-0,311; -1,333), ancho 0,837, alto 0,086.
+- La separación horizontal entre la línea adicional y la cabeza Do4
+  fue exactamente **0,000**.
+- Se conservaron siete roles originales (staff, clef, meter,
+  stem×3, barline) y las tres cabezas de nota.
+- El diagnóstico concluyó:
+  `OK: pentagrama, clave, compás, línea adicional, plicas,
+  cabezas y barra final animables por separado.`
+
+Se ejecutó `render_score_drawing_fresh.ps1`; los 22 segmentos se
+recalcularon con `Caching disabled`. Antes se guardó la versión previa
+en `D:\Proyectos\Musnim-renders\M3_Dibujo_antes_del_render_limpio_20261027_002301.mp4`.
+
+El render finalizó correctamente y el QA informó: **20,032 s,
+854×480, 15 fps, H.264 y AAC, OK**. Solo hubo una advertencia de
+opciones de FFmpeg no utilizadas, de carácter no bloqueante.
+
+### Criterio restante
+
+- [x] Comprobar exportación de `LedgerLineSpanner` en SVG real.
+- [x] Recuperar geometría propia de `draw-ledgers` en Manim.
+- [x] Validar su alineación horizontal exacta con Do4.
+- [x] Generar nuevamente el MP4 con `Create(ledger)` sin caché.
+- [x] Aprobar las características técnicas del MP4.
+- [ ] Inspeccionar el MP4 nuevo y verificar visualmente que la línea
+  adicional atraviesa la cabeza del Do4 al aparecer a los 8 s.
+- [ ] Extender el contrato para asociar múltiples líneas adicionales
+  con sus cabezas en partituras más extensas y polifónicas.
+
+La geometría correcta y el render terminado son verificaciones
+independientes de la fidelidad visual. La aprobación del nuevo elemento
+requiere examinar fotogramas del MP4 en torno a 8–9 s, además de la
+imagen final. El PR #7 sigue en borrador.
