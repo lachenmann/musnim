@@ -107,6 +107,9 @@ class AnimatedScoreDrawingDemo(Scene):
             until(note.start_seconds)
             head = score.note(note.event.id)
             stem = score.layer("stem", owner=note.event.id)
+            # LilyPond engraves ledger lines as a staff-level spanner.
+            # Only C4 needs a ledger in this single-voice pilot.
+            ledger = score.layer("ledger") if note.event.id == "c-1" else None
             label = Text(
                 PITCH_NAMES.get(note.event.pitch, note.event.pitch),
                 font_size=24, color=GOLD_C,
@@ -117,12 +120,12 @@ class AnimatedScoreDrawingDemo(Scene):
                 0.0,
             ])
 
-            animate(
-                DrawBorderThenFill(head),
-                Create(stem),
-                Write(label),
-                duration=NOTE_APPEAR_SECONDS,
-            )
+            # Draw the real LilyPond ledger line with its C4 head.
+            # The animation list remains data-driven for other noteheads.
+            note_animations = [DrawBorderThenFill(head), Create(stem), Write(label)]
+            if ledger is not None:
+                note_animations.insert(0, Create(ledger))
+            animate(*note_animations, duration=NOTE_APPEAR_SECONDS)
             animate(
                 head.animate.set_color(GOLD_C),
                 duration=NOTE_COLOR_SECONDS,

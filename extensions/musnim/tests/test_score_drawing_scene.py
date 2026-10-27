@@ -55,3 +55,14 @@ def test_mathematical_caption_uses_dedicated_lower_band():
     )
     assert "frequency_ratio.move_to(DOWN * 2.48)" in source
     assert "frequency_ratio.move_to(DOWN * 1.68)" not in source
+
+
+
+def test_c4_ledger_is_drawn_from_engraved_svg():
+    """A written C4 in treble requires a ledger through its notehead."""
+    source = (PROJECT / "scenes" / "score_drawing_demo.py").read_text(
+        encoding="utf-8"
+    )
+    assert 'score.layer("ledger") if note.event.id == "c-1"' in source
+    assert 'note_animations.insert(0, Create(ledger))' in source
+    assert "animate(*note_animations, duration=NOTE_APPEAR_SECONDS)" in source

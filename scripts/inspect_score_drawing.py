@@ -25,6 +25,7 @@ def main():
         ("staff", None),
         ("clef", None),
         ("meter", None),
+        ("ledger", None),
         ("stem", "c-1"),
         ("stem", "g-1"),
         ("stem", "c-2"),
@@ -68,6 +69,16 @@ def main():
         if graphic.width <= 0 or graphic.height <= 0:
             raise SystemExit(f"Geometría vacía: {role}/{owner}")
 
+    # In this single-ledger pilot, its actual engraved graphic belongs to C4.
+    ledger = score.layer("ledger")
+    c4 = score.note("c-1")
+    distance = abs(ledger.get_center()[0] - c4.get_center()[0])
+    print(f"  ledger-to-C4 x-distance: {distance:.3f}")
+    if distance > c4.width:
+        raise SystemExit("La línea adicional quedó separada del Do4")
+    if ledger.width > c4.width * 3:
+        raise SystemExit("El grupo de líneas adicionales cubre demasiado ancho")
+
     for event, _ in matched_svg_notes(svg, SCORE / "naturmotiv_events.json"):
         head = score.note(event.id)
         print(
@@ -77,8 +88,8 @@ def main():
         if head.width <= 0 or head.height <= 0:
             raise SystemExit(f"Cabeza de nota vacía: {event.id}")
     print(
-        "OK: pentagrama, clave, compás, plicas, cabezas "
-        "y barra final animables por separado."
+        "OK: pentagrama, clave, compás, línea adicional, plicas, "
+        "cabezas y barra final animables por separado."
     )
 
 

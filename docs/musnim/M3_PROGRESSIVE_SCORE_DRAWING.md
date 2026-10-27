@@ -315,3 +315,49 @@ fórmula 2:3:4 ocupa una franja independiente de los nombres
 de notas. Conservar el PR #7 en borrador hasta contar con
 esa inspección visual. El audio mantiene el calendario didáctico
 Do4 8–11 s, Sol4 11–14 s y Do5 14–20 s.
+
+
+## Líneas adicionales: corrección después del render limpio (27-10-2026)
+
+El usuario ejecutó `render_score_drawing_fresh.ps1`, comprobando
+`Caching disabled` en las 22 animaciones. El archivo final pasó QA:
+20,032 s, 854×480, 15 fps, H.264 y AAC. La inspección de los fotogramas
+de 4,8; 9,2 y 17,6 segundos confirmó:
+
+- [x] El compás 4/4 se graba numéricamente, en dos cifras.
+- [x] La fórmula 2:3:4 está en su banda inferior, separada de los rótulos.
+- [x] El pentagrama, clave, cabezas, plicas y barra final se dibujan.
+- [ ] La línea adicional de Do4 sigue ausente en la animación.
+
+LilyPond agrupa las líneas adicionales de cada pentagrama en el grob
+`LedgerLineSpanner`, que considera todas las cabezas correspondientes.
+Por tanto, el contrato del motor debe representar esa capa por separado,
+conservando las dimensiones y posiciones efectivas del grabado original.
+
+### Corrección del siguiente candidato
+
+- Atributos `output-attributes` de `LedgerLineSpanner` declarados
+  en el bloque de creación `Staff \with`, como ocurrió con
+  `StaffSymbol`, `Clef` y `TimeSignature`.
+- Nuevo rol gráfico `ledger`, ID SVG `draw-ledgers`.
+- `inspect_score_drawing.py` exige el grupo y compara la posición
+  de su geometría con la cabeza `c-1`. El piloto tiene una sola nota
+  que necesita línea adicional; en partituras extensas el spanner
+  requerirá dividirse en segmentos vinculados a distintas cabezas.
+- La escena dibuja esa geometría LilyPond con `Create(ledger)`
+  simultáneamente a la aparición de Do4.
+- Pruebas de regresión sobre SVG de ejemplo y contrato de escena.
+
+Esta corrección es **un nuevo candidato pendiente de validación**
+con LilyPond 2.26 real. En particular, que el atributo esté en el
+archivo fuente no garantiza que el SVG exporte un grupo de líneas;
+el diagnóstico en Windows debe confirmarlo antes de renderizar.
+
+    cd D:\Proyectos\musnim
+    git pull --ff-only origin feature/M3-score-drawing
+    .\.venv\Scripts\python.exe .\scripts\inspect_score_drawing.py
+
+Si aparece el rol `ledger` con dimensiones propias, y el diagnóstico
+concluye en `OK`, ejecutar el render fresco conservando la versión
+anterior y efectuar QA. Conservar este PR abierto hasta inspeccionar
+visualmente que la línea atraviesa la cabeza Do4 durante la escritura.

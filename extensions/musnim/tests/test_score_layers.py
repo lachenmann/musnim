@@ -71,12 +71,12 @@ def test_drawing_lilypond_file_has_all_expected_markers():
     score = (
         root / "projects" / "ZAR-001" / "score" / "naturmotiv_drawing.ly"
     ).read_text(encoding="utf-8")
-    for grob in ("StaffSymbol", "Clef", "TimeSignature", "Stem", "BarLine"):
+    for grob in ("StaffSymbol", "Clef", "TimeSignature", "Stem", "BarLine", "LedgerLineSpanner"):
         assert f"{grob}.output-attributes" in score
 
     roles = re.findall(r'\(data-musnim-role \. "([^"]+)"\)', score)
     assert sorted(roles) == sorted(
-        ["staff", "clef", "meter", "stem", "stem", "stem", "barline"]
+        ["staff", "clef", "meter", "stem", "stem", "stem", "barline", "ledger"]
     )
     owners = re.findall(r'\(data-musnim-owner \. "([^"]+)"\)', score)
     assert owners == ["c-1", "g-1", "c-2"]
@@ -93,7 +93,7 @@ def test_initial_grobs_are_tagged_at_staff_creation():
     ).read_text(encoding="utf-8")
     prefix = source.split(r"\clef treble", 1)[0]
     context = prefix.split(r"\new Staff \with {", 1)[1]
-    for grob in ("StaffSymbol", "Clef", "TimeSignature", "BarLine"):
+    for grob in ("StaffSymbol", "Clef", "TimeSignature", "BarLine", "LedgerLineSpanner"):
         assert r"\override " + grob + ".output-attributes" in context
     for grob in ("Clef", "TimeSignature", "BarLine"):
         assert r"\once \override " + grob + ".output-attributes" not in source
@@ -110,3 +110,18 @@ def test_drawing_score_uses_numeric_four_four():
     ).read_text(encoding="utf-8")
     assert r"\numericTimeSignature" in score
     assert score.index(r"\numericTimeSignature") < score.index(r"\time 4/4")
+
+
+
+def test_ledger_spanner_is_staff_level_and_selectable(tmp_path):
+    """LilyPond manages ledger lines by staff; the pilot has one ledger."""
+    document = (
+        '<svg><g id="draw-ledgers" data-musnim-role="ledger">'
+        '<path d="M0 0 L2 0"/></g>'
+        '<g id="draw-staff" data-musnim-role="staff">'
+        '<path d="M0 1 L7 1"/></g></svg>'
+    )
+    layers = read_score_layers(svg(tmp_path, document))
+    layer = require_score_layer(layers, "ledger")
+    assert layer.svg_id == "draw-ledgers"
+    assert layer.owner is None

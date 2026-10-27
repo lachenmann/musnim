@@ -25,6 +25,10 @@
       #'((id . "draw-meter") (data-musnim-role . "meter"))
     \override BarLine.output-attributes =
       #'((id . "draw-barline") (data-musnim-role . "barline"))
+    % A LedgerLineSpanner collects all ledger lines of this Staff.
+    % In this pilot only the written C4 requires one; keep this unowned.
+    \override LedgerLineSpanner.output-attributes =
+      #'((id . "draw-ledgers") (data-musnim-role . "ledger"))
   } {
     \clef treble
     % Teaching notation uses numeric 4/4 instead of common-time C.
