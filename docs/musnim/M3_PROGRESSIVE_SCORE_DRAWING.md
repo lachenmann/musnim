@@ -405,3 +405,54 @@ La geometría correcta y el render terminado son verificaciones
 independientes de la fidelidad visual. La aprobación del nuevo elemento
 requiere examinar fotogramas del MP4 en torno a 8–9 s, además de la
 imagen final. El PR #7 sigue en borrador.
+
+
+## Auditoría definitiva de la línea adicional — MP4 V3 (27-10-2026)
+
+El usuario entregó `AnimatedScoreDrawingDemo(3).mp4`, derivado del
+render sin caché con el commit `6a72decd`. Se examinó directamente
+el archivo y se cotejó fotograma a fotograma con
+`AnimatedScoreDrawingDemo(2).mp4`, anterior a la integración
+de `LedgerLineSpanner`.
+
+### Evidencia de video
+
+- MP4 de **20,032 s**, **854 × 480**, 15 fps, H.264 y AAC estéreo.
+- A los **8,47 s**, durante el dibujo de Do4, se ve por primera vez
+  la línea horizontal atravesando la cabeza. En el MP4 anterior
+  se observan solamente la cabeza y la plica.
+- A los **9,00 s**, la cabeza aparece iluminada en naranja y
+  la línea adicional blanca sobresale de ambos lados.
+- A los **17,60 s**, la línea permanece al completarse la escritura.
+- La línea corresponde al grupo LilyPond `draw-ledgers`, previamente
+  confirmado con su centro horizontal coincidente con Do4 (X=0,000).
+- Se conservan el 4/4 numérico, la fórmula 2:3:4 en banda propia,
+  el pentagrama, la clave y los demás símbolos previstos.
+
+### Continuidad sonora
+
+Ambos MP4 se decodificaron con FFmpeg a PCM mono 48 kHz/16 bits.
+Los dos flujos contienen **961 536 muestras** y muestran el mismo
+SHA-256:
+
+`d089ce503419578ba6899a125cf0f7120266ea7b4dc3ccddc462c3f349145f2a`
+
+La incorporación gráfica conserva el audio sintético idéntico
+muestra por muestra; el calendario didáctico es Do4 8–11 s,
+Sol4 11–14 s y Do5 14–20 s.
+
+### Resultado
+
+- [x] Línea adicional del Do4 dibujada en el video real.
+- [x] Alineación y persistencia verificadas.
+- [x] Maquetación 4/4 y fórmula separada conservadas.
+- [x] Identidad exacta del audio entre ambas versiones.
+- [x] Piloto M3.1 aceptado visual y técnicamente en Windows.
+- [ ] Extender la asociación de múltiples líneas adicionales a
+  varias cabezas, acordes, voces y sistemas.
+- [ ] Repetir render gráfico completo en macOS y Linux.
+
+El alcance aprobado corresponde al piloto de una voz Do–Sol–Do.
+La transcripción orquestal de los compases 1–21 de Strauss es
+un trabajo separado (Issue #3). El PR #7 permanece en borrador
+hasta completar los criterios de integración todavía abiertos.
